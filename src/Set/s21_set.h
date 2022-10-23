@@ -135,8 +135,9 @@ namespace s21 {
         }
 
         void erase(iterator pos) {
-            node_pointer temp_note = pos.base();
-            erase_tree_pos(temp_note);
+           // node_pointer temp_note = pos.base();
+            //if (temp_note == nullptr) std::cout << "sdf0" <<std::endl;
+            erase_tree_pos(pos);
         }
 
         void operator=(Set &&other) {
@@ -253,29 +254,45 @@ namespace s21 {
             }
         }
 
-        void erase_tree_pos(node_pointer node) {
-            if (!node->left_ && !node->right_) { //если нет детей то удаляем его
-                Delete_this_tree(node);
-            } else if (node->left_ && !node->right_) { //если есть левый ребенок ,
-                Delete_and_insert(node, node->left_); // то удаляем и ставим на его место левого ребенка
-            } else if (!node->left_ && node->right_) { //если есть правый ребенок,
-                Delete_and_insert(node, node->right_);// то удаляем и ставим на его место правого ребенка
+        void erase_tree_pos(iterator pos) {
+            if (pos.base()->left_ == root_ && pos.base()->right_ == root_) { //если нет детей то удаляем его
+                Delete_this_tree(pos);
+            } else if (pos.base()->left_ == nill_ && pos.base()->right_ != nill_) { //если есть левый ребенок ,
+                Delete_and_insert(pos); // то удаляем и ставим на его место левого ребенка
+            } else if (pos.base()->left_ == nill_ && pos.base()->right_ != nill_) { //если есть правый ребенок,
+                Delete_and_insert(pos);// то удаляем и ставим на его место правого ребенка
             } else {
-                Delete_and_insert_min(node); //если есть и левый и правый надо удалить и вставить
+                Delete_and_insert_min(pos); //если есть и левый и правый надо удалить и вставить
             } //минимальный эдемент
+            //size_--;
+        }
+
+        void Delete_this_tree(iterator pos) {
+            pos.base()->parent_ = nullptr;
             size_--;
         }
 
-        void Delete_this_tree(node_pointer node) {
-            node->key_ = 0;
+        void Delete_and_insert(iterator pos) {
+          //  bool temp = true;
+//            if (pos.base()->left_ == root_) {
+//                iterator tmp_1 = pos.base()->right_;
+//                result = tmp_1;
+//                size_--;
+//            } else
+                if (pos.base()->right_ != root_) {
+                //if(res == temp) {
+               //     pos.base()->parent_ = pos.base()->right_;
+                    root_ = root_->right_;
+                    size_--;
+                //}
+            } else {
+                    root_ = root_->left_;
+                }
+//            return pos.base()->parent_;
         }
 
-        void Delete_and_insert(node_pointer note, node_pointer note_insert) {
-
-        }
-
-        void Delete_and_insert_min(node_pointer node) {
-
+        void Delete_and_insert_min(iterator pos) {
+            root_ = root_->left_;
         }
     };
 }  // namespace s21
