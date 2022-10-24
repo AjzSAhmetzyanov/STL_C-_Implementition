@@ -53,7 +53,7 @@ namespace s21 {
 
         ~Set() {
             if (size_ != 0) clear();
-            if (nill_) delete nill_;
+           // if (nill_) delete nill_;
         }
 
         bool empty() const { return size_ == 0; }
@@ -71,30 +71,10 @@ namespace s21 {
             return result.second;
         }
         iterator begin() const {
-            node_pointer begin_node = root_;
-            if (size_ != 0) {
-                while (begin_node->left_ != nill_) {
-                    begin_node = begin_node->left_;
-                    while (begin_node->right_ != nill_ && comp_.eq(begin_node->right_->key_, begin_node->key_))
-                        begin_node = begin_node->right_;
-                }
-            } else {
-                begin_node = nill_;
-            }
-            return iterator(begin_node);
+            return iterator(size_ == 0 ? root_ : iterator(tree_min(root_)));
         }
         const_iterator cbegin() const {
-            node_pointer begin_node = root_;
-            if (size_ != 0) {
-                while (begin_node->left_ != nill_) {
-                    begin_node = begin_node->left_;
-                    while (begin_node->right_ != nill_ && comp_.eq(begin_node->right_->key_, begin_node->key_))
-                        begin_node = begin_node->right_;
-                }
-            } else {
-                begin_node = nill_;
-            }
-            return const_iterator(begin_node);
+            return const_iterator(size_ == 0 ? root_ : const_iterator(tree_min(root_)));
         }
         iterator end() const { return iterator(nill_); }
         const_iterator cend() const { return const_iterator(nill_); }
@@ -135,9 +115,29 @@ namespace s21 {
         }
 
         void erase(iterator pos) {
-           // node_pointer temp_note = pos.base();
-            //if (temp_note == nullptr) std::cout << "sdf0" <<std::endl;
-            erase_tree_pos(pos);
+            node_pointer y = pos.base();
+            node_pointer x = nullptr;
+            node_pointer for_free = y;
+            if (is_nill(y->left_)) {
+                x = y->right_;
+                transplant(y, y->right_);
+            } else if (is_nill(y->right_)) {
+                x = y->left_;
+                transplant(y, y->left_);
+            } else {
+                node_pointer z = y;
+                y = tree_min(z->right_);
+                x = y->right_;
+                if (y->parent_ != z){
+                    transplant(y, y->right_);
+                    y->right_ = z->right_;
+                    z->right_->parent_ = y;
+                }
+                transplant(z, y);
+                y->left_ = z->left_;
+                y->left_->parent_ = y;
+            }
+            free_node(for_free);
         }
 
         void operator=(Set &&other) {
@@ -159,6 +159,31 @@ namespace s21 {
         }
         // helpers
     private:
+        void transplant(node_pointer position, node_pointer node){
+            if (position == root_){
+                root_ = node;
+            } else if (position == position->parent_->left_) {
+                position->parent_->left_ = node;
+            } else
+                position->parent_->right_ = node;
+            node->parent_ = position->parent_;
+            size_--;
+        }
+
+        node_pointer tree_min(node_pointer n) const{
+            while (n != NULL && !is_nill(n->left_))
+                n = n->left_;
+            return n;
+        }
+        bool is_nill(node_pointer node) const {
+            return node == nill_;
+        }
+        void free_node(node_pointer node){
+           // alloc_.destroy(node->key_);
+            //alloc_.deallocate(node->key_, 1);
+            //_node_alloc.deallocate(node, 1);
+        }
+
         std::pair<iterator, bool> Insert_new_element(const key_type &value) {
             std::pair<iterator, bool> result = {root_, false};
             node_pointer new_element = new node_type(value, nullptr, nill_, nill_);
@@ -252,47 +277,6 @@ namespace s21 {
                 if (node->right_ != nill) copy_(node->right_, nill);
                 insert(node->key_);
             }
-        }
-
-        void erase_tree_pos(iterator pos) {
-            if (pos.base()->left_ == root_ && pos.base()->right_ == root_) { //если нет детей то удаляем его
-                Delete_this_tree(pos);
-            } else if (pos.base()->left_ == nill_ && pos.base()->right_ != nill_) { //если есть левый ребенок ,
-                Delete_and_insert(pos); // то удаляем и ставим на его место левого ребенка
-            } else if (pos.base()->left_ == nill_ && pos.base()->right_ != nill_) { //если есть правый ребенок,
-                Delete_and_insert(pos);// то удаляем и ставим на его место правого ребенка
-            } else {
-                Delete_and_insert_min(pos); //если есть и левый и правый надо удалить и вставить
-            } //минимальный эдемент
-            //size_--;
-        }
-
-        void Delete_this_tree(iterator pos) {
-            pos.base()->parent_ = nullptr;
-            size_--;
-        }
-
-        void Delete_and_insert(iterator pos) {
-          //  bool temp = true;
-//            if (pos.base()->left_ == root_) {
-//                iterator tmp_1 = pos.base()->right_;
-//                result = tmp_1;
-//                size_--;
-//            } else
-                if (pos.base()->right_ != root_) {
-                //if(res == temp) {
-               //     pos.base()->parent_ = pos.base()->right_;
-                    root_ = root_->right_;
-                    size_--;
-                //}
-            } else {
-                    root_ = root_->left_;
-                }
-//            return pos.base()->parent_;
-        }
-
-        void Delete_and_insert_min(iterator pos) {
-            root_ = root_->left_;
         }
     };
 }  // namespace s21
