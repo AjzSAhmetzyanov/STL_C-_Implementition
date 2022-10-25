@@ -65,61 +65,29 @@ namespace s21 {
             return root;
         }
 
-//        TreeNode *findNext_() {
-//            TreeNode *node = this;
-//            Key current_value = node->key_;
-//            if (node->right_ != get_nill()) {
-//                node = node->right_;
-//                while (node->left_ != get_nill()) {
-//                    node = node->left_;
-//                }
-//            } else {
-//                if (node->parent_ != nullptr) {
-//                    TreeNode *parent_TreeNode = node->parent_;
-//                    while (node == parent_TreeNode->right_) {
-//                        node = parent_TreeNode->right_;
-//                        parent_TreeNode = parent_TreeNode->parent_;
-//                    }
-//                    if (node->right_ != parent_TreeNode) {
-//                        node = parent_TreeNode;
-//                    }
-//                    if (comp_.lt(node->key_, current_value)) {
-//                        while (comp_.gt(current_value, node->key_)) {
-//                            node = node->parent_;
-//                        }
-//                    }
-//                }
-//            }
-//            return node;
-//        }
-//
-//        TreeNode *findPrev_() {
-//            TreeNode *node = this;
-//            Key current_value = node->key_;
-//            if (node->left_ != get_nill()) {
-//                node = node->left_;
-//                while (node->right_ != get_nill()) {
-//                    node = node->right_;
-//                }
-//            } else {
-//                if (node->parent_ != nullptr) {
-//                    TreeNode *parent_TreeNode = node->parent_;
-//                    while (node == parent_TreeNode->left_) {
-//                        node = parent_TreeNode->left_;
-//                        parent_TreeNode = parent_TreeNode->parent_;
-//                    }
-//                    if (node->left_ != parent_TreeNode) {
-//                        node = parent_TreeNode;
-//                    }
-//                    if (comp_.gt(node->key_, current_value)) {
-//                        while (comp_.lt(current_value, node->key_)) {
-//                            node = node->parent_;
-//                        }
-//                    }
-//                }
-//            }
-//            return node;
-//        }
+        TreeNode *get_next_node() {
+            TreeNode *node = this;
+            Key current_value = node->key_;
+            if (node->right_ != get_nill()) {
+                node = node->right_;
+                while (node->left_ != get_nill()) {
+                    node = node->left_;
+                }
+            } else {
+                if (node->parent_ != nullptr) {
+                    TreeNode *max_elem = node->parent_;
+                    while (node == max_elem->right_) {
+                        node = max_elem->right_;
+                        max_elem = max_elem->parent_;
+                    }
+                    if (node->right_ != max_elem) {
+                        node = max_elem;
+                    }
+                }
+            }
+            return node;
+        }
+
     };
 }  // namespace s21
 #endif  // RB_TREE_NODE_H_

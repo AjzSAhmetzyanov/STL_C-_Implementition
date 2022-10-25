@@ -22,12 +22,12 @@ namespace s21 {
         cmp_type comp_;
 
     public:
-        TreeIterator() : pointer_(nullptr) { ; }                        // базовый конструктор
-        TreeIterator(node_pointer TreeNode) : pointer_(TreeNode) { ; }  // параметризированный конструктор
-        TreeIterator(const TreeIterator &other) : TreeIterator() {  // копирование
+        TreeIterator() : pointer_(nullptr) {}
+        TreeIterator(node_pointer TreeNode) : pointer_(TreeNode) {}
+        TreeIterator(const TreeIterator &other) : TreeIterator() {
             pointer_ = other.pointer_;
         }
-        TreeIterator(TreeIterator &&other) {  // перемещение
+        TreeIterator(TreeIterator &&other) {
             pointer_ = other.pointer_;
         }
         ~TreeIterator() {}
@@ -44,51 +44,33 @@ namespace s21 {
             return *this;
         }
 
-        iterator operator++() {  // pre-increment
+        iterator operator++() {
             if (pointer_ == base()->get_nill()) {
                 pointer_ = base()->get_max();
             } else if (pointer_ == base()->get_max()) {
                 pointer_ = base()->get_nill();
+            } else if (pointer_->parent_ == nullptr) {
+                pointer_ = base()->right_;
             } else {
-                pointer_ = pointer_->findNext_();
+                pointer_ = pointer_->get_next_node();
             }
             return *this;
         }
 
-        iterator operator++(int) {  // post-increment
+        iterator operator++(int) {
             iterator tmp(*this);
             if (pointer_ == base()->get_nill()) {
                 pointer_ = base()->get_max();
             } else if (pointer_ == base()->get_max()) {
                 pointer_ = base()->get_nill();
+            } else if (pointer_->parent_ == nullptr) {
+                pointer_ = base()->right_;
             } else {
-                pointer_ = pointer_->findNext_();
+                pointer_ = pointer_->get_next_node();
             }
             return tmp;
         }
 
-        iterator operator--() {  // pre-decrement
-            if (pointer_ == base()->get_min()) {
-                pointer_ = base()->get_nill();
-            } else if (pointer_ == base()->get_nill()) {
-                pointer_ = base()->get_max();
-            } else {
-                pointer_ = pointer_->findPrev_();
-            }
-            return *this;
-        }
-
-        iterator operator--(int) {  // post-decrement
-            iterator tmp(*this);
-            if (pointer_ == base()->get_min()) {
-                pointer_ = base()->get_nill();
-            } else if (pointer_ == base()->get_nill()) {
-                pointer_ = base()->get_max();
-            } else {
-                pointer_ = pointer_->findPrev_();
-            }
-            return tmp;
-        }
 
         bool operator>(const iterator &other) { return pointer_ > other.pointer_; }
         bool operator<(const iterator &other) { return pointer_ < other.pointer_; }
@@ -113,12 +95,12 @@ namespace s21 {
         cmp_type comp_;
 
     public:
-        TreeConstIterator() : pointer_(nullptr) { ; }  // базовый конструктор
-        TreeConstIterator(node_pointer TreeNode) : pointer_(TreeNode) { ; }  // параметризированный конструктор
-        TreeConstIterator(const const_iterator &other) : TreeConstIterator() {  // копирование
+        TreeConstIterator() : pointer_(nullptr) {}
+        TreeConstIterator(node_pointer TreeNode) : pointer_(TreeNode) {}
+        TreeConstIterator(const const_iterator &other) : TreeConstIterator() {
             pointer_ = other.pointer_;
         }
-        TreeConstIterator(const_iterator &&other) {  // перемещение
+        TreeConstIterator(const_iterator &&other) {
             pointer_ = other.pointer_;
         }
         ~TreeConstIterator() {}
@@ -135,48 +117,29 @@ namespace s21 {
             return *this;
         }
 
-        const_iterator operator++() {  // pre-increment
+        const_iterator operator++() {
             if (pointer_ == base()->get_nill()) {
                 pointer_ = base()->get_max();
             } else if (pointer_ == base()->get_max()) {
                 pointer_ = base()->get_nill();
+            } else if (pointer_->parent_ == nullptr) {
+                pointer_ = base()->right_;
             } else {
-                pointer_ = pointer_->findNext_();
+                pointer_ = pointer_->get_next_node();
             }
             return *this;
         }
 
-        const_iterator operator++(int) {  // post-increment
+        const_iterator operator++(int) {
             TreeConstIterator tmp(*this);
             if (pointer_ == base()->get_nill()) {
                 pointer_ = base()->get_max();
             } else if (pointer_ == base()->get_max()) {
                 pointer_ = base()->get_nill();
+            } else if (pointer_->parent_ == nullptr) {
+                pointer_ = base()->right_;
             } else {
-                pointer_ = pointer_->findNext_();
-            }
-            return tmp;
-        }
-
-        const_iterator operator--() {  // pre-decrement
-            if (pointer_ == base()->get_min()) {
-                pointer_ = base()->get_nill();
-            } else if (pointer_ == base()->get_nill()) {
-                pointer_ = base()->get_max();
-            } else {
-                pointer_ = pointer_->findPrev_();
-            }
-            return *this;
-        }
-
-        const_iterator operator--(int) {  // post-decrement
-            TreeConstIterator tmp(*this);
-            if (pointer_ == base()->get_min()) {
-                pointer_ = base()->get_nill();
-            } else if (pointer_ == base()->get_nill()) {
-                pointer_ = base()->get_max();
-            } else {
-                pointer_ = pointer_->findPrev_();
+                pointer_ = pointer_->get_next_node();
             }
             return tmp;
         }

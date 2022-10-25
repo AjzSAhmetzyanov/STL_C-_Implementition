@@ -13,12 +13,20 @@ TEST(set_test, constr1) {
 }
 
 TEST(set_test, constr2) {
+s21::Set<int> s1 = {2, 1, 3, 5, 4, 6, 8, 7};
+std::set<int> s2 = {2, 1, 3, 5, 4, 6, 8, 7};
+auto it1 = s1.begin();
+for (auto it2 = s2.begin(); it2 != s2.end(); it1++, it2++)
+EXPECT_EQ(*it1, *it2);
+}
+
+TEST(set_test, constr3) {
   s21::Set<int> s1;
   std::set<int> s2;
   EXPECT_EQ(s1.size(), s2.size());
 }
 
-TEST(set_test, constr3) {
+TEST(set_test, constr4) {
   s21::Set<int> s1 = {1, 2, 3};
   std::set<int> s2 = {1, 2, 3};
   auto s11 = std::move(s1);
@@ -30,7 +38,7 @@ TEST(set_test, constr3) {
   EXPECT_EQ(s11.size(), s22.size());
 }
 
-TEST(set_test, constr4) {
+TEST(set_test, constr5) {
   s21::Set<int> s1 = {1, 2, 3};
   std::set<int> s2 = {1, 2, 3};
   auto s11 = s1;
@@ -42,7 +50,16 @@ TEST(set_test, constr4) {
   EXPECT_EQ(s11.size(), s22.size());
 }
 
-TEST(set_test, constr5) {
+TEST(set_test, constr6) {
+s21::Set<int> s1 = {-100, -200, -15};
+std::set<int> s2 = {-100, -200, -15};
+auto it1 = s1.begin();
+for (auto it2 = s2.begin(); it2 != s2.end(); it1++, it2++)
+EXPECT_EQ(*it1, *it2);
+EXPECT_EQ(s1.size(), s2.size());
+}
+
+TEST(set_test, constr7) {
   s21::Set<int> s1 = {1, 2, 3};
   std::set<int> s2 = {1, 2, 3};
   s21::Set<int> s11;
@@ -62,22 +79,6 @@ TEST(set_test, begin1) {
   auto it1 = s1.begin();
   auto it2 = s2.begin();
   EXPECT_EQ(*it1, *it2);
-}
-
-//TEST(set_test, begin2) {
-//  s21::Set<int> s1 = {1, 2, 3};
-//  s1.clear();
-//  auto it1 = s1.begin();
-//  EXPECT_EQ(it1.base(), s1.end().base());
-//}
-
-TEST(set_test, end1) {
-  s21::Set<int> s1 = {1, 2, 3};
-  std::set<int> s2 = {1, 2, 3};
-  auto it1 = s1.end();
-  auto it2 = s2.end();
-  it1--, it2--;
-  EXPECT_EQ(*it2, *it1);
 }
 
 TEST(set_test, end2) {
@@ -315,15 +316,6 @@ TEST(set_test, iter1) {
   auto it1 = s1.begin();
   auto it2 = s2.begin();
   for (int i = 0; i < 4; i++) it1++, it2++;
-  EXPECT_EQ(*it1, *it2);
-}
-
-TEST(set_test, iter2) {
-  s21::Set<int> s1 = {1, 2, 3, 4, 5, 6, 7, 8};
-  std::set<int> s2 = {1, 2, 3, 4, 5, 6, 7, 8};
-  auto it1 = s1.end();
-  auto it2 = s2.end();
-  for (int i = 0; i < 3; i++) --it1, --it2;
   EXPECT_EQ(*it1, *it2);
 }
 
