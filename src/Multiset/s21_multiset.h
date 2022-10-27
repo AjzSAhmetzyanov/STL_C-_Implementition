@@ -3,7 +3,7 @@
 
 #include "../Set/compare.h"
 #include "../Set/s21_set.h"
-#include "iterator.h"
+#include "../Set/iterator.h"
 namespace s21 {
     template <class T, class Compare = s21::Compare<T>>
     class Multiset : public Set<T, Compare> {
@@ -13,22 +13,22 @@ namespace s21 {
         using const_reference = const T &;
         using size_type = size_t;
         using value_type = key_type;
-        using comp_ = Compare;
-        using node_type = TreeNode<key_type , comp_>;
-        using node_pointer = typename Set<value_type, comp_>::node_pointer;
-        using iterator = TreeIterator<key_type, comp_>;
-        using const_iterator = TreeConstIterator<key_type, comp_>;
+        using compare_ = Compare;
+        using node_type = TreeNode<key_type , compare_>;
+        using node_pointer = typename Set<value_type, compare_>::node_pointer;
+        using iterator = TreeIterator<key_type, compare_>;
+        using const_iterator = TreeConstIterator<key_type, compare_>;
     private:
         std::allocator<Set<T, Compare>> alloc_;
     public:
-        Multiset() : Set<key_type, comp_>() { ; }
-        Multiset(std::initializer_list<key_type> const &items) : Set<key_type, comp_>() {
+        Multiset() : Set<key_type, compare_>() {}
+        Multiset(std::initializer_list<key_type> const &items) : Set<key_type, compare_>() {
             for (auto it = items.begin(); it != items.end(); it++) insert(*it);
         }
-        Multiset(const Multiset &other) : Set<key_type, comp_>() {
+        Multiset(const Multiset &other) : Set<key_type, compare_>() {
             for (auto it = other.begin(); it != other.end(); it++) insert(*it);
         }
-        Multiset(Multiset &&other) : Set<key_type, comp_>() {
+        Multiset(Multiset &&other) : Set<key_type, compare_>() {
             delete this->nill_;
             this->root_ = other.root_;
             this->size_ = other.size_;
@@ -42,7 +42,7 @@ namespace s21 {
     public:
         size_type max_size() { return alloc_.max_size(); }
         void operator=(Multiset &&other) {
-            Set<value_type, comp_>::clearData_(this->root_);
+            Set<value_type, compare_>::Clear_tree(this->root_);
             delete this->nill_;
             this->root_ = other.root_;
             this->size_ = other.size_;
@@ -53,19 +53,20 @@ namespace s21 {
         }
 
         iterator insert(const value_type& value) {
-            if (this->empty()) {
-                Set<value_type, comp_>::Insert_new_element(value);
-            } else {
-                Insert_nonull_tree(value);
-            }
+            // если root пустой , то вставляем на его место11
+            // если не пустой, тогда 1: если элемент существует , то его не добавляем , возвращаем false через пару
+            // 2: если такого элемента нет, то его закидываем по правилам
+            return Set<value_type, compare_>::insert(value).first;
         }
 
         void merge(Multiset& other) {
-
+            return Set<value_type, compare_>::merge(other);
         }
+
         size_type count(const value_type &key) {
             size_type result = 0;
-            for (auto it = this->find(key); this->comp_.eq(*it, key) && it != this->end(); it++) result++;
+            for (auto it = this->find(key);
+            this->comp_.eq(*it, key) && it != this->end(); it++) result++;
             return result;
         }
         std::pair<iterator, iterator> equal_range(const value_type &key) {
@@ -94,9 +95,7 @@ namespace s21 {
 
         //helpers
     private:
-        iterator Insert_nonull_tree(const key_type &value) {
 
-        }
     };
 }  // namespace s21
 

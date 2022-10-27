@@ -67,22 +67,13 @@ namespace s21 {
 
         TreeNode *get_next_node() {
             TreeNode *node = this;
-            Key current_value = node->key_;
-            if (node->right_ != get_nill()) {
+            Key temp = node->key_;
+            if (node->right_ == get_nill()) {
+                node = node->parent_;
+            } else {
                 node = node->right_;
                 while (node->left_ != get_nill()) {
                     node = node->left_;
-                }
-            } else {
-                if (node->parent_ != nullptr) {
-                    TreeNode *max_elem = node->parent_;
-                    while (node == max_elem->right_) {
-                        node = max_elem->right_;
-                        max_elem = max_elem->parent_;
-                    }
-                    if (node->right_ != max_elem) {
-                        node = max_elem;
-                    }
                 }
             }
             return node;

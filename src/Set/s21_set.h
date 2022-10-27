@@ -71,7 +71,7 @@ namespace s21 {
             return result.second;
         }
         iterator begin() const {
-            return iterator(size_ == 0 ? root_ : iterator(tree_min(root_)));
+            return iterator(size_ == 0  ? root_ : iterator(tree_min(root_)));
         }
         const_iterator cbegin() const {
             return const_iterator(size_ == 0 ? root_ : const_iterator(tree_min(root_)));
@@ -137,7 +137,6 @@ namespace s21 {
                 y->left_ = z->left_;
                 y->left_->parent_ = y;
             }
-            free_node(for_free);
         }
 
         void operator=(Set &&other) {
@@ -158,7 +157,7 @@ namespace s21 {
             return result;
         }
         // helpers
-    private:
+    public:
         void transplant(node_pointer position, node_pointer node){
             if (position == root_){
                 root_ = node;
@@ -175,13 +174,26 @@ namespace s21 {
                 n = n->left_;
             return n;
         }
+
         bool is_nill(node_pointer node) const {
             return node == nill_;
         }
-        void free_node(node_pointer node){
-           // alloc_.destroy(node->key_);
-            //alloc_.deallocate(node->key_, 1);
-            //_node_alloc.deallocate(node, 1);
+        std::pair<iterator, bool> search_key(const key_type &value) const {
+            bool result = false;
+            node_pointer node = root_;
+            while (node && node != nill_) {
+                if (comp_.lt(value, node->key_)) {
+                    node = node->left_;
+                } else if (comp_.gt(value, node->key_)) {
+                    node = node->right_;
+                } else if (comp_.eq(value, node->key_)) {
+                    result = true;
+                    break;
+                }
+            }
+            auto res_iter(node);
+            std::pair<iterator, bool> res_search = {res_iter, result};
+            return res_search;
         }
 
         std::pair<iterator, bool> Insert_new_element(const key_type &value) {
@@ -212,6 +224,20 @@ namespace s21 {
                     result = insert_to_left(root, new_element);
                 } else {
                     result = insert_to_right(root, new_element);
+                }
+            } else {
+                if (comp_.eq(new_element->key_, root->key_)) {
+                    result = insert_to_right(root, new_element);
+#if defined S21_MULTISET_H_
+                } else {
+                    if (comp_.gt(new_element->key_, root->key_)) {
+                        root = root->right_;
+                        result = Insert_new_element_to_nonul_tree(root, new_element);
+                    } else {
+                        root = root->left_;
+                        result = Insert_new_element_to_nonul_tree(root, new_element);
+                    }
+ #endif
                 }
             }
             return result;
@@ -246,29 +272,13 @@ namespace s21 {
             return result;
         }
 
+
         void Clear_tree(node_pointer node) {
             if (node != nill_ && node != nullptr) {
                 if (node->left_ != nill_) Clear_tree(node->left_);
                 if (node->right_ != nill_) Clear_tree(node->right_);
                 delete node;
             }
-        }
-        std::pair<iterator, bool> search_key(const key_type &value) const {
-            bool result = false;
-            node_pointer node = root_;
-            while (node && node != nill_) {
-                if (comp_.lt(value, node->key_)) {
-                    node = node->left_;
-                } else if (comp_.gt(value, node->key_)) {
-                    node = node->right_;
-                } else if (comp_.eq(value, node->key_)) {
-                    result = true;
-                    break;
-                }
-            }
-            auto res_iter(node);
-            std::pair<iterator, bool> res_search = {res_iter, result};
-            return res_search;
         }
 
         void copy_(node_pointer node, node_pointer nill) {
