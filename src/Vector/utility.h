@@ -1,7 +1,6 @@
 #ifndef VECTOR_UTILITY_H_
 #define VECTOR_UTILITY_H_
 #include <iostream>
-#include <iterator>
 namespace s21 {
 template <class T>
 struct remove_const {

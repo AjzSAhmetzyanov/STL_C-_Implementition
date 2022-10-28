@@ -53,8 +53,8 @@ namespace s21 {
         }
 
         iterator insert(const value_type& value) {
-            // если root пустой , то вставляем на его место11
-            // если не пустой, тогда 1: если элемент существует , то его не добавляем , возвращаем false через пару
+            // если root пустой , то вставляем на его место
+            // если не пустой, тогда 1: если элемент существует , то добавляем
             // 2: если такого элемента нет, то его закидываем по правилам
             return Set<value_type, compare_>::insert(value).first;
         }
@@ -65,10 +65,16 @@ namespace s21 {
 
         size_type count(const value_type &key) {
             size_type result = 0;
-            for (auto it = this->find(key);
-            this->comp_.eq(*it, key) && it != this->end(); it++) result++;
+            if (this->root_ != nullptr) {
+                for (auto it = this->begin(); it != this->end(); it++) {
+                    if (this->comp_.eq(*it, key)) {
+                        result++;
+                    }
+                }
+            }
             return result;
         }
+
         std::pair<iterator, iterator> equal_range(const value_type &key) {
             auto it_begin = this->find(key);
             auto it_end = it_begin;

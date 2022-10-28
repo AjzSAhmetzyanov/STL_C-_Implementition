@@ -4,49 +4,48 @@
 namespace s21 {
     template <typename C>
     struct Compare {
-        bool lt(const C &x, const C &y) const {  // less then
+        bool lt(const C &x, const C &y) const {
             return x < y;
         }
-        bool gt(const C &x, const C &y) const {  // grater then
+        bool gt(const C &x, const C &y) const {
             return x > y;
         }
-        bool le(const C &x, const C &y) const {  // less or equal
+        bool le(const C &x, const C &y) const {
             return x <= y;
         }
-        bool ge(const C &x, const C &y) const {  // grater or equal
+        bool ge(const C &x, const C &y) const {
             return x >= y;
         }
-        bool eq(const C &x, const C &y) const {  // equal
+        bool eq(const C &x, const C &y) const {
             return x == y;
         }
-        bool neq(const C &x, const C &y) const {  // not equal
+        bool neq(const C &x, const C &y) const {
             return x != y;
         }
     };
-
     template <class E, class F>
     struct Pair_compare {
-        bool less(const std::pair<E, F> &x, const std::pair<E, F> &y) {
+        bool lt(const std::pair<E, F> &x, const std::pair<E, F> &y) const{
             return x.first < y.first;
         }
 
-        bool greater(const std::pair<E, F> &x, const std::pair<E, F> &y) {
+        bool gt(const std::pair<E, F> &x, const std::pair<E, F> &y) const{
             return x.first > x.first;
         }
 
-        bool less_or_equal(const std::pair<E, F> &x, const std::pair<E, F> &y) {
+        bool le(const std::pair<E, F> &x, const std::pair<E, F> &y) const{
             return x.first <= x.first;
         }
 
-        bool greater_or_equal(const std::pair<E, F> &x, const std::pair<E, F> &y) {
+        bool ge(const std::pair<E, F> &x, const std::pair<E, F> &y) const{
             return x.first >= x.first;
         }
 
-        bool equal(const std::pair<E, F> &x, const std::pair<E, F> &y) {
+        bool eq(const std::pair<E, F> &x, const std::pair<E, F> &y) const{
             return x.first == x.first;
         }
 
-        bool no_equal(const std::pair<E, F> &x, const std::pair<E, F> &y) {
+        bool neq(const std::pair<E, F> &x, const std::pair<E, F> &y) const{
             return x.first != x.first;
         }
     };

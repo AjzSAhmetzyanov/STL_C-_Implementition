@@ -104,6 +104,11 @@ namespace s21 {
                         if (!this->contains(*it_1)) {
                             this->insert(*it_1);
                             other.size_--;
+#if defined S21_MULTISET_H_
+                            } else {
+                            this->insert(*it_1);
+                            other.size_--;
+#endif
                         }
                     }
                 }
