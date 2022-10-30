@@ -52,18 +52,16 @@ namespace s21 {
                     return *this;
                 }
                 iterator begin() {
-                    if (this->head_ != nullptr) return this->head_;
-                    else return this->iter_;
+                    return (this->head_ != nullptr) ? this->head_ : this->iter_;
                 }
                 iterator begin() const{
-                    if (this->head_ != nullptr) return this->head_;
-                    else return this->iter_;
+                    return (this->head_ != nullptr) ? this->head_ : this->iter_;
                 }
                 iterator end() {
-                    return this->tail_;
+                    return this->iter_;
                 }
                 iterator end() const{
-                    return this->tail_;
+                    return this->iter_;
                 }
                 const_reference front() {
                     return (this->head_ != nullptr) ? this->head_->data : this->iter_->data;
@@ -213,9 +211,35 @@ void unique() {
             ++it;
     }
 }
-                // void sort() {
+                void sort() {
+                    if (!this->empty()) {
+                        head_ = sorting(head_);
+                    }
+                }
+        node_pointer sorting(node_pointer head) {
+                    if (head == tail_ || head->next() == tail_) {
+            return head;
+        }
+        node_pointer mid = split_list(head);
+        node_pointer a = head;
+        node_pointer b = mid->next();
+        mid->next() = tail_;
 
-                // }
+        a = sorting(a);
+        b = sorting(b);
+        return merge(a, b);
+        }
+
+    node_pointer split_list(node_pointer head) {
+        node_pointer fast = head->next();
+        node_pointer slow = head;
+
+        while (fast != tail_ && fast->next() != tail_) {
+            fast = fast->next()->next();
+            slow = slow->next();
+        }
+        return slow;
+    }
 
 node_pointer get_node_by_pos(const_iterator pos) {
     node_pointer result = head_;
