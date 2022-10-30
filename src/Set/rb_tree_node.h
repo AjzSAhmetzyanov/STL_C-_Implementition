@@ -76,9 +76,6 @@ namespace s21 {
                     node = node->left_;
                 }
             }
-#if defined S21_MULTISET_H_
-
-#endif
             return node;
         }
 
