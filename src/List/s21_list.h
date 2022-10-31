@@ -6,12 +6,13 @@
 namespace s21 {
     template <typename T, class Alocator = std::allocator<T>>
             class List {
+            public:
                 using value_type = T;
-                using pointer = T*;
-                using reference = T&;
-                using const_reference = const T&;
-                using iterator = Iterator<T>;
-                using const_iterator = ConstIterator<T>;
+                using pointer = T *;
+                using reference = T &;
+                using const_reference = const T &;
+                using iterator = ListIterator<T>;
+                using const_iterator = ListConstIterator<T>;
                 using node_pointer = Node<T>*;
                 using node_type = Node<T>;
                 using alloc_type = Alocator;
@@ -20,114 +21,118 @@ namespace s21 {
             private:
                 node_pointer head_;
                 node_pointer tail_;
-                node_pointer iter_;
+                node_pointer fake_node_;
                 size_type size_;
 
             protected:
                 alloc_rebind alloc_;
             public:
-                List() : head_(nullptr), tail_(nullptr), iter_(new node_type), size_(0) {}
+                List() : head_(nullptr), tail_(nullptr), fake_node_(new node_type), size_(0) {}
                 List(size_type n) : List() {
                     for (size_type i = 0; i < n; i++) {
-                        this->push_back(value_type());
+                        push_back(value_type());
                     }
                 }
                 List(std::initializer_list<value_type> const &items) : List() {
                     for (auto it = items.begin(); it != items.end(); it++)
-                        this->push_back(*it);
+                        push_back(*it);
                 }
                 List(const List &other) : List() {
-                    this->copy(other);
+                    copy(other);
                 }
                 List(List &&other) : List() {
                     other.clear();
                 }
                 ~List() {
-                    this->clear();
-                    delete iter_;
+                    clear();
+                    delete fake_node_;
                 }
-
                 List& operator=(const List &other) {
-                    this->copy(other);
+                    copy(other);
                     return *this;
                 }
                 iterator begin() {
-                    return (this->head_ != nullptr) ? this->head_ : this->iter_;
+                    return iterator(head_);
                 }
-                iterator begin() const{
-                    return (this->head_ != nullptr) ? this->head_ : this->iter_;
+                const_iterator begin() const{
+                    return head_;
                 }
                 iterator end() {
-                    return this->iter_;
+                    return iterator(fake_node_);
                 }
-                iterator end() const{
-                    return this->iter_;
+                const_iterator end() const{
+                    return fake_node_;
                 }
                 const_reference front() {
-                    return (this->head_ != nullptr) ? this->head_->data : this->iter_->data;
+                    return (head_ != nullptr) ? head_->data_ : fake_node_->data_;
                 }
                 const_reference back() {
-                    return (this->tail_ != nullptr) ? this->tail_->data : this->iter_->data;
+                    return (tail_ != nullptr) ? tail_->data_ : fake_node_->data_;
                 }
                 void copy(const List &other) {
-                    this->clear();
+                    clear();
                     if (other.size_ != 0) {
                         for (auto iter = other.begin(); iter != other.end(); ++iter) {
-                            this->push_back(*iter);
+                            push_back(*iter);
                         }
                     }
                 }
                 void clear() {
-                    size_type const_size = this->size_;
+                    size_type const_size = size_;
                     for (size_type i = 0; i < const_size; i++)
-                        this->erase(this->begin());
+                        erase(begin());
                 }
                 void pop_back() {
-                    if (this->empty())
+                    if (empty()) {
                         throw std::out_of_range("List is empty");
-                        this->erase(--end());
+                    }
+                        erase(--end());
                 }
                 void pop_front() {
-                    if (this->empty())
+                    if (this->empty()) {
                         throw std::out_of_range("List is empty");
-                        this->erase(begin());
+                    }
+                    erase(begin());
                 }
                 void push_back(const_reference value) {
-                    node_pointer temp = new node_type(value, nullptr, this->tail_); //fix
-                    if (this->tail_ != nullptr)
-                        this->tail_->next_ = temp;
-                    if (this->size_ == 0)
-                        this->head_ = this->tail_ = temp;
-                    else
-                        this->tail_ = temp;
-                    this->size_++;
-                    this->set_iter(this->size_);
+                    node_pointer temp = new node_type(value, nullptr, tail_); //fix
+                    if (tail_ != nullptr) {
+                        tail_->next_ = temp;
+                    }
+                    if (size_ == 0) {
+                        head_ = tail_ = temp;
+                    } else {
+                        tail_ = temp;
+                    }
+                        size_++;
+                        set_iter(reinterpret_cast<const_reference>(size_));
                 }
                 void push_front(const_reference value) {
-                    node_pointer temp = new node_type(value, this->head_, nullptr);
-                    if (this->head_ != nullptr)
-                        this->head_->prev_ = temp;
-                    if (this->size_ == 0)
-                        this->head_ = this->tail_ = temp;
-                    else
-                        this->head_ = temp;
-                    this->size_++;
-                    this->set_iter(this->size_);
+                    node_pointer temp = new node_type(value, head_, nullptr);
+                    if (head_ != nullptr) {
+                        head_->prev_ = temp;
+                    }
+                    if (size_ == 0) {
+                        head_ = tail_ = temp;
+                    } else {
+                        head_ = temp;
+                    }
+                    size_++;
+                    set_iter(reinterpret_cast<const_reference>(size_));
                 }
                 void set_iter(const_reference value) {
-                    if (this->head_ != nullptr && this->tail_ != nullptr) {
-                        this->head_->prev_ = this->iter_;
-                        this->tail_->next_ = this->iter_;
+                    if (head_ != nullptr && tail_ != nullptr) {
+                        head_->prev_ = fake_node_;
+                        tail_->next_ = fake_node_;
                     }
-                    this->iter_->prev_ = this->tail_;
-                    this->iter_->next_ = this->head_;
-                    this->iter_->data_ = value;
+                    fake_node_->prev_ = tail_;
+                    fake_node_->next_ = head_;
                 }
                 bool empty() {
-                    return (this->size_ == 0);
+                    return (size_ == 0);
                 }
                 size_type size() {
-                    return this->size_;
+                    return size_;
                 }
                 size_type max_size() {
                     return alloc_.max_size();
@@ -141,7 +146,7 @@ namespace s21 {
                         push_back(value);
                         res = tail_->prev_;
                     } else {
-                        node_pointer node_for_pos = new node_type {value, this->head_, nullptr};
+                        node_pointer node_for_pos = new node_type {value, head_, nullptr};
                         if (pos.node()->prev_) {
                             pos.node()->prev_->next_ = node_for_pos;
                             node_for_pos->prev_ = pos.node()->prev_;
@@ -154,34 +159,38 @@ namespace s21 {
                     return res;
                 }
                 void erase(iterator pos) {
-                    if (pos == this->end() || this->empty())
-                    throw std::out_of_range("Error: Iterator is out of range");
-                    node_pointer node = this->get_node_by_pos(pos.node());
+                    if (size_ == 0) {
+                        throw std::out_of_range("Iterator is out of range");
+                    }
+                    node_pointer node = get_node_by_pos(pos.node());
                     node_pointer node_next = node->next_;
                     node_pointer node_back = node->prev_;
-                    if (this->size_ > 1 && node_next != this->iter_)
-                      node_next->prev_ = node_back;
-                    if (this->size_ > 1 && node_back != this->iter_)
-                         node_back->next_ = node_next;
-                    if (pos == this->begin())
-                         this->head_ = node_next;
-                     if (pos == --end())
-                      this->tail_ = node_back;
-                     this->size_--;
-                 this->set_iter((this->size_ == 0) ? value_type() : node->data_);
-                  delete node;
-                }
+                    if (size_ > 1 && node_next != fake_node_) {
+                        node_next->prev_ = node_back;
+                    }
+                    if (size_ > 1 && node_back != fake_node_) {
+                        node_back->next_ = node_next;
+                    }
+                    if (pos == begin()) {
+                        tail_ = node_next;
+                    }
+                    if (pos == --end()) {
+                        tail_ = node_back;
+                    }
+                    size_--;
+                    set_iter((size_ == 0) ? value_type() : node->data_);
+                    }
                 void swap(List& other) {
                      List new_list(other);
                         other = *this;
                          *this = new_list;
                 }
                 void merge(List& other) {
-                    iterator it_this = this->begin();
+                    iterator it_this = begin();
                      value_type prev_value = other.front();
                   for (auto it_other = other.begin(); it_other != other.end(); prev_value = *it_other) {
                        if (*it_other < prev_value || *it_this > *it_other) {
-                            this->insert(it_this, *it_other);
+                            insert(it_this, *it_other);
                                 ++it_other;
                        } else {
                            ++it_this;
@@ -189,8 +198,8 @@ namespace s21 {
                     }
                   other.clear();
                 }
-void splice(const_iterator pos, List& other) {
-    iterator this_it = this->begin();
+void splice(iterator pos, List& other) {
+    iterator this_it = begin();
     for (; this_it != pos; ++this_it) {;}
     for (auto it = other.begin(); it != other.end(); ++it)
         insert(this_it, *it);
@@ -198,69 +207,85 @@ void splice(const_iterator pos, List& other) {
 }
 void reverse() {
     List reverse_list;
-    for (auto it = this->begin(); it != this->end(); ++it)
+    for (auto it = begin(); it != end(); ++it)
         reverse_list.push_front(*it);
     *this = reverse_list;
 }
 void unique() {
-    iterator it_next = ++(this->begin());
-    for (auto it = this->begin(); it_next != this->end(); ++it_next) {
-        if (*it == *it_next)
-            this->erase(it_next);
-        else
+    iterator it_next = ++(begin());
+    for (auto it = begin(); it_next != end(); ++it_next) {
+        if (*it == *it_next) {
+            erase(it_next);
+        } else {
             ++it;
+        }
     }
 }
                 void sort() {
-                    if (!this->empty()) {
+                    if (!empty()) {
                         head_ = sorting(head_);
                     }
                 }
         node_pointer sorting(node_pointer head) {
-                    if (head == tail_ || head->next() == tail_) {
+                    if (head == tail_ || head->next_ == tail_) {
             return head;
         }
         node_pointer mid = split_list(head);
         node_pointer a = head;
-        node_pointer b = mid->next();
-        mid->next() = tail_;
+        node_pointer b = mid->next_;
+        mid->next_ = tail_;
 
         a = sorting(a);
         b = sorting(b);
         return merge(a, b);
         }
+                node_pointer merge(node_pointer a, node_pointer b) {
+                    if (a == tail_) return b;
+                    if (b == tail_) return a;
+                    node_pointer c;
+                    if ((a->data_) < (b->data_)) {
+                        c = a;
+                        c->next_ = merge(a->next_, b);
+                    } else {
+                        c = b;
+                        c->next_ = merge(a, b->next_);
+                    }
+                    return c;
+                }
 
     node_pointer split_list(node_pointer head) {
-        node_pointer fast = head->next();
+        node_pointer fast = head->next_;
         node_pointer slow = head;
 
-        while (fast != tail_ && fast->next() != tail_) {
-            fast = fast->next()->next();
-            slow = slow->next();
+        while (fast != tail_ && fast->next_ != tail_) {
+            fast = fast->next_->next_;
+            slow = slow->next_;
         }
         return slow;
     }
 
 node_pointer get_node_by_pos(const_iterator pos) {
     node_pointer result = head_;
-    for (auto it = this->begin(); it != pos.node(); ++it)
+    for (auto it = begin(); it != pos.node(); ++it)
         result = result->next_;
     return result;
 }
-template<class... Args>
-iterator emplace(const_iterator pos, Args&&... args) {
-    iterator this_it = this->begin();
-    for (; this_it != pos; ++this_it) {;}
-    return this->insert(this_it, value_type(std::forward<Args>(args)...));
-}
-template<class... Args>
-void emplace_back(Args&&... args) {
-    this->insert(this->end(), value_type(std::forward<Args>(args)...));
-}
-template<class... Args>
-void emplace_front(Args&&... args) {
-    this->insert(this->begin(), value_type(std::forward<Args>(args)...));
-}
+
+                template <class... Args>
+                iterator emplace(const_iterator pos, Args &&...args) {
+                    iterator it(const_cast<node_pointer>(pos.base()));
+                    return insert(it, value_type(std::forward<Args>(args)...));
+                }
+
+                template <class... Args>
+                void emplace_back(Args &&...args) {
+                    push_back(value_type(std::forward<Args>(args)...));
+                }
+
+                template <class... Args>
+                void emplace_front(Args &&...args) {
+                    push_front(value_type(std::forward<Args>(args)...));
+                }
             };
 }
 #endif // S21_LIST_H_

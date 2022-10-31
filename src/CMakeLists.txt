@@ -3,13 +3,9 @@ project(src)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(Set)
+include_directories(List)
 
 add_executable(src
-        Set/compare.h
-        Set/iterator.h
-        Set/rb_tree.h
-        Set/rb_tree_node.h
-        Set/s21_set.h
-        Set/test.cc
-        tests/set_tests.cc)
+           List/s21_list.h
+           List/test.cc
+        )

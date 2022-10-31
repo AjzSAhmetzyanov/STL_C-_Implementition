@@ -1,0 +1,3 @@
+C:/github_project/STL_C-_Implementition/src/cmake-build-debug/CMakeFiles/src.dir
+C:/github_project/STL_C-_Implementition/src/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/github_project/STL_C-_Implementition/src/cmake-build-debug/CMakeFiles/rebuild_cache.dir

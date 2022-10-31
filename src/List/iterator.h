@@ -13,7 +13,7 @@ namespace s21 {
         }
     };
     template <class T>
-    class Iterator {
+    class ListConstIterator {
     public:
         using value_type = T;
         using pointer = T*;
@@ -24,49 +24,48 @@ namespace s21 {
         node_pointer iterator_;
 
     public:
-        Iterator() : iterator_(nullptr) {}
-        Iterator(node_pointer other_iterator) : iterator_(other_iterator) {}
-        Iterator(const Iterator &other_iterator) : iterator_(other_iterator.iterator_) {}
-        Iterator(Iterator &&other_iterator) : iterator_(other_iterator.iterator_) {}
-        ~Iterator() { iterator_ = nullptr;}
+        ListConstIterator() : iterator_(nullptr) {}
+        ListConstIterator(node_pointer other_iterator) : iterator_(other_iterator) {}
+        ListConstIterator(const ListConstIterator &other_iterator) : iterator_(other_iterator.iterator_) {}
+        ListConstIterator(ListConstIterator &&other_iterator) : iterator_(other_iterator.iterator_) {}
+        ~ListConstIterator() { iterator_ = nullptr;}
 
-        Iterator &operator++() {
-            iterator_ = iterator_->next_;
+        ListConstIterator &operator++() {
+            this->iterator_ = this->iterator_->next_;
             return *this;
         }
-        Iterator &operator++(int) {
-            auto iter = *this;
-            iter.iterator_ = iter.iterator_->next_;
+        ListConstIterator &operator++(int) {
+            this->iterator_ = this->iterator_->next_;
             return *this;
         }
-        Iterator &operator--() {
-            iterator_ = iterator_->prev_;
+        ListConstIterator &operator--() {
+            this->iterator_ = this->iterator_->prev_;
             return *this;
         }
-        bool operator==(const Iterator &iter) {return iterator_->data_ == iter.iterator_->data_;}
-        bool operator!=(const Iterator &iter) {return iterator_ != iter.iterator_;}
-        void operator=(const Iterator &it) { iterator_ = it.iterator_; }
-        void operator=(Iterator &&it) { iterator_ = it.iterator_; }
+        bool operator==(const ListConstIterator &iter) {return iterator_->data_ == iter.iterator_->data_;}
+        bool operator!=(const ListConstIterator &iter) {return iterator_ != iter.iterator_;}
+        void operator=(const ListConstIterator &it) { iterator_ = it.iterator_; }
+        void operator=(ListConstIterator &&it) { iterator_ = it.iterator_; }
         reference operator*() { return iterator_->data_;}
 
-        Iterator operator+(int value) {
-            Iterator tmp(*this);
+        ListConstIterator operator+(int value) {
+            ListConstIterator tmp(*this);
             return (tmp += value);
         }
 
-        Iterator operator-(int value) {
-            Iterator tmp(*this);
+        ListConstIterator operator-(int value) {
+            ListConstIterator tmp(*this);
             return (tmp -= value);
         }
 
-        Iterator &operator+=(int value) {
+        ListConstIterator &operator+=(int value) {
             for (int i = 0; i < value; i++) {
                 iterator_ = iterator_->next_;
             }
             return *this;
         }
 
-        Iterator &operator-=(int value) {
+        ListConstIterator &operator-=(int value) {
             for (int i = 0; i < value; i++) {
                 iterator_ = iterator_->prev_;
             }
@@ -81,59 +80,60 @@ namespace s21 {
         }
     };
     template <class T>
-    class ConstIterator {
+    class ListIterator {
     public:
         using value_type = T;
         using pointer = T*;
         using reference = T&;
         using node_pointer = Node<value_type>*;
+        using const_iterator = ListConstIterator<T>;
 
     private:
         node_pointer iterator_;
 
     public:
-        ConstIterator() : iterator_(nullptr) {}
-        ConstIterator(node_pointer other_iterator) : iterator_(other_iterator) {}
-        ConstIterator(const ConstIterator &other_iterator) : iterator_(other_iterator.iterator_) {}
-        ConstIterator(ConstIterator &&other_iterator) : iterator_(other_iterator.iterator_) {}
-        ~ConstIterator() { iterator_ = nullptr;}
+        ListIterator() : iterator_(nullptr) {}
+        ListIterator(node_pointer other_iterator) : iterator_(other_iterator) {}
+        ListIterator(const ListIterator &other_iterator) : iterator_(other_iterator.iterator_) {}
+        ListIterator(ListIterator &&other_iterator) : iterator_(other_iterator.iterator_) {}
+        ~ListIterator() {}
 
-        ConstIterator &operator++() {
-            iterator_ = iterator_->next_;
+        ListIterator &operator++() {
+            this->iterator_ = this->iterator_->next_;
             return *this;
         }
-        ConstIterator &operator++(int) {
-            auto iter = *this;
-            iter.iterator_ = iter.iterator_->next_;
-        }
-        ConstIterator &operator--() {
-            iterator_ = iterator_->prev_;
+        ListIterator &operator++(int) {
+            this->iterator_ = this->iterator_->next_;
             return *this;
         }
-        bool operator==(const ConstIterator &iter) {return iterator_->data_ == iter.iterator_->data_;}
-        bool operator!=(const ConstIterator &iter) {return iterator_ != iter.iterator_;}
-        void operator=(const ConstIterator &it) { iterator_ = it.iterator_; }
-        void operator=(ConstIterator &&it) { iterator_ = it.iterator_; }
-        reference operator*() { return *(iterator_->data_);}
+        ListIterator &operator--() {
+            this->iterator_ = this->iterator_->prev_;
+            return *this;
+        }
+        bool operator==(const ListIterator &iter) {return iterator_->data_ == iter.iterator_->data_;}
+        bool operator!=(const ListIterator &iter) {return iterator_ != iter.iterator_;}
+        void operator=(const ListIterator &it) { iterator_ = it.iterator_; }
+        void operator=(ListIterator &&it) { iterator_ = it.iterator_; }
+        reference operator*() { return iterator_->data_;}
 
-        ConstIterator operator+(int value) {
-            ConstIterator tmp(*this);
+        ListIterator operator+(int value) {
+            ListIterator tmp(*this);
             return (tmp += value);
         }
 
-        ConstIterator operator-(int value) {
-            ConstIterator tmp(*this);
+        ListIterator operator-(int value) {
+            ListIterator tmp(*this);
             return (tmp -= value);
         }
 
-        ConstIterator &operator+=(int value) {
+        ListIterator &operator+=(int value) {
             for (int i = 0; i < value; i++) {
                 iterator_ = iterator_->next_;
             }
             return *this;
         }
 
-        ConstIterator &operator-=(int value) {
+        ListIterator &operator-=(int value) {
             for (int i = 0; i < value; i++) {
                 iterator_ = iterator_->prev_;
             }
