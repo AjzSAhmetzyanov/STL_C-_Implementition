@@ -258,10 +258,19 @@ class RedBlackTree {
                                      : const_iterator(tree_min(root_)));
   }
 
-  iterator end() { return iterator(header_); }
+  iterator end() {
+        node_pointer tmp = root_;
+        while (tmp != NULL) {
+            tmp = tmp->right_;
+        }
+        return iterator(tmp);
 
-  const_iterator end() const { return const_iterator(header_); }
-
+  const_iterator end() const {
+      node_pointer tmp = root_;
+      while (tmp != NULL) {
+          tmp = tmp->right_;
+      }
+      return iterator(tmp);
   pointer create_value(const value_type &value) {
     pointer new_val = alloc_.allocate(1);
     alloc_.construct(new_val, value);
@@ -301,14 +310,15 @@ class RedBlackTree {
   }
 
   node_pointer search(const value_type &value, node_pointer node) const {
-    if (is_nil(node) || !node) {
+    if (is_nil(node))
       return NULL;
-    } else if (compare_.le(value, *node->value_)) {
+    if (compare_.lt(value, *node->value_))
       return search(value, node->left_);
-    } else if (compare_.ge(*node->value_, value)) {
+    if (compare_.gt(*node->value_, value))
       return search(value, node->right_);
-    }
-    return node;
+    if (compare_.eq(*node->value_, value))
+        return node;
+      return NULL;
   }
 
   iterator find(const value_type &value) {
@@ -323,9 +333,8 @@ class RedBlackTree {
 
   std::pair<iterator, bool> insert(value_type const &_value) {
     node_pointer find_val = search(_value, root_);
-    if (find_val) {
+    if (find_val)
       return std::pair<iterator, bool>(iterator(find_val), false);
-    } else {
       node_pointer new_node = node_alloc_.allocate(1);
       node_alloc_.construct(new_node, Node<value_type>(create_value(_value)));
       new_node->left_ = nil_;
@@ -339,7 +348,6 @@ class RedBlackTree {
       header_->parent_ = new_node;
       return res;
     }
-  }
   //        std::pair<iterator, bool> insert_or_assign(const value_type &key)
   //        const{
   //            size_type startsize_ = size_;

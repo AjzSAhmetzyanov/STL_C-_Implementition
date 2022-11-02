@@ -38,7 +38,8 @@ class Map {
       : alloc_(alloc), tree_(tree_type(comp, alloc)), compare_(comp) {}
 
   Map(std::initializer_list<value_type> const& items) {
-    for (auto it = items.begin(); it != items.end(); it++) tree_.insert(*it);
+    for (auto it = items.begin(); it != items.end(); it++)
+        insert(*it);
   }
   Map(Map& other) : Map() { copy(other); }
   Map(Map&& other) noexcept : Map() {
@@ -53,7 +54,8 @@ class Map {
 
   void copy(const Map& other) {
     clear();
-    for (auto it = other.begin(); it != other.end(); it++) insert(*it);
+    for (auto it = other.begin(); it != other.end(); it++)
+        insert(*it);
   }
 
   mapped_type& operator[](const key_type& key) {
@@ -135,20 +137,19 @@ class Map {
   mapped_type& at(const key_type& key) {
     iterator tmp = this->find(key);
 			if (tmp == this->end()) {
-				insert(std::make_pair(key, mapped_type()));
+				throw std::out_of_range("ups");
       }
-			tmp = this->find(key);
 			return ((*tmp).second);
   }
   
   const mapped_type& at(const key_type& key) const {
-    iterator tmp = this->find(key);
-			if (tmp == this->end()) {
-				insert(std::make_pair(key, mapped_type()));
+      iterator tmp = this->find(key);
+      if (tmp == this->end()) {
+          throw std::out_of_range("ups");
       }
-			tmp = this->find(key);
-			return ((*tmp).second);
+      return ((*tmp).second);
   }
+
   void merge(Map& other) {
     for (auto it = other.begin(); it != other.end(); it++) {
       tree_.insert(*it);

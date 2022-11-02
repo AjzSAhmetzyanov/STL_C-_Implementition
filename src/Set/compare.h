@@ -18,23 +18,23 @@ struct Pair_compare {
   }
 
   bool gt(const std::pair<E, F> &x, const std::pair<E, F> &y) const {
-    return x.first > x.first;
+    return x.first > y.first;
   }
 
   bool le(const std::pair<E, F> &x, const std::pair<E, F> &y) const {
-    return x.first <= x.first;
+    return x.first <= y.first;
   }
 
   bool ge(const std::pair<E, F> &x, const std::pair<E, F> &y) const {
-    return x.first >= x.first;
+    return x.first >= y.first;
   }
 
   bool eq(const std::pair<E, F> &x, const std::pair<E, F> &y) const {
-    return x.first == x.first;
+    return x.first == y.first;
   }
 
   bool neq(const std::pair<E, F> &x, const std::pair<E, F> &y) const {
-    return x.first != x.first;
+    return x.first != y.first;
   }
 };
 }  // namespace s21
