@@ -128,29 +128,29 @@ src/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\src.dir\build.make CMakeFiles/src.dir/build
 .PHONY : src/fast
 
-List/test.obj: List/test.cc.obj
-.PHONY : List/test.obj
+Map/test.obj: Map/test.cc.obj
+.PHONY : Map/test.obj
 
 # target to build an object file
-List/test.cc.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\src.dir\build.make CMakeFiles/src.dir/List/test.cc.obj
-.PHONY : List/test.cc.obj
+Map/test.cc.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\src.dir\build.make CMakeFiles/src.dir/Map/test.cc.obj
+.PHONY : Map/test.cc.obj
 
-List/test.i: List/test.cc.i
-.PHONY : List/test.i
+Map/test.i: Map/test.cc.i
+.PHONY : Map/test.i
 
 # target to preprocess a source file
-List/test.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\src.dir\build.make CMakeFiles/src.dir/List/test.cc.i
-.PHONY : List/test.cc.i
+Map/test.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\src.dir\build.make CMakeFiles/src.dir/Map/test.cc.i
+.PHONY : Map/test.cc.i
 
-List/test.s: List/test.cc.s
-.PHONY : List/test.s
+Map/test.s: Map/test.cc.s
+.PHONY : Map/test.s
 
 # target to generate assembly for a file
-List/test.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\src.dir\build.make CMakeFiles/src.dir/List/test.cc.s
-.PHONY : List/test.cc.s
+Map/test.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\src.dir\build.make CMakeFiles/src.dir/Map/test.cc.s
+.PHONY : Map/test.cc.s
 
 # Help Target
 help:
@@ -161,9 +161,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... src
-	@echo ... List/test.obj
-	@echo ... List/test.i
-	@echo ... List/test.s
+	@echo ... Map/test.obj
+	@echo ... Map/test.i
+	@echo ... Map/test.s
 .PHONY : help
 
 

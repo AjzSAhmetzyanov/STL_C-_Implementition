@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <iterator>
+
 #include "s21_vector.h"
 #include "utility.h"
 namespace s21 {
@@ -95,6 +96,5 @@ class RandomAccessIterator {
   reference operator[](difference_type i) const { return *(_pointer + i); }
 };
 
-
-}; // namespace s21
+};      // namespace s21
 #endif  // ITERATOR_H_

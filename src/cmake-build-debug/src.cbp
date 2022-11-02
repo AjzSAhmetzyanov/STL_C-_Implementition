@@ -86,10 +86,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="C:/github_project/STL_C-_Implementition/src/List/s21_list.h">
+		<Unit filename="C:/github_project/STL_C-_Implementition/src/Map/iterator.h">
 			<Option target="src"/>
 		</Unit>
-		<Unit filename="C:/github_project/STL_C-_Implementition/src/List/test.cc">
+		<Unit filename="C:/github_project/STL_C-_Implementition/src/Map/red_black_tree.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="C:/github_project/STL_C-_Implementition/src/Map/s21_map.h">
+			<Option target="src"/>
+		</Unit>
+		<Unit filename="C:/github_project/STL_C-_Implementition/src/Map/test.cc">
 			<Option target="src"/>
 		</Unit>
 		<Unit filename="C:/github_project/STL_C-_Implementition/src/CMakeLists.txt">

@@ -94,9 +94,7 @@ class Vector {
 
     pointer operator->() const { return _pointer; }
 
-    pointer base() const {
-      return _pointer;
-    }
+    pointer base() const { return _pointer; }
 
     reference operator*() const { return *_pointer; }
 
@@ -176,7 +174,7 @@ class Vector {
  private:
   pointer first_;  // указатель на первый элемент
   size_type size_;
-  size_type capacity_;  //размер и емкость
+  size_type capacity_;        //размер и емкость
   allocator_type allocator_;  //обьект для выделения памяти
 
  public:
@@ -357,17 +355,17 @@ class Vector {
   }
 
   void erase(iterator iter) {
-        auto it_begin = begin();
-        size_type pos = iter.base() - it_begin.base();
-        if (pos >= capacity_) {
-            throw std::out_of_range("Out of range");
-        }
-        for (size_type i = pos; i <= size() - 1; i++) {
-            first_[i] = first_[i + 1];
-        }
-        size_--;
-        allocator_.destroy(iter.base());
+    auto it_begin = begin();
+    size_type pos = iter.base() - it_begin.base();
+    if (pos >= capacity_) {
+      throw std::out_of_range("Out of range");
     }
+    for (size_type i = pos; i <= size() - 1; i++) {
+      first_[i] = first_[i + 1];
+    }
+    size_--;
+    allocator_.destroy(iter.base());
+  }
 
   void push_back(const value_type &value) {
     if (size_ == capacity_) {
@@ -380,11 +378,11 @@ class Vector {
     size_++;
   }
 
-  void pop_back() noexcept { 
-   if (size_ > 0) {
-   allocator_.destroy(first_ + size_ - 1);
-   size_--;
-   }
+  void pop_back() noexcept {
+    if (size_ > 0) {
+      allocator_.destroy(first_ + size_ - 1);
+      size_--;
+    }
   }
 
   void swap(Vector &x) {
@@ -398,8 +396,8 @@ class Vector {
 
   void resize(size_type new_size, const value_type &val = value_type()) {
     // while (new_size < size_) {
-    //   pop_back();
-    // }
+    //    //   pop_back();
+    //    // }
     if (new_size > size_) {
       if (size_ <= capacity_) reserve(new_size);
       while (new_size > size_) {

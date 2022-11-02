@@ -492,11 +492,11 @@ class RedBlackTree {
   }
 
   ~RedBlackTree() {
-//    clear_node(root_);
-//    alloc_.destroy(header_->value_);
-//    alloc_.deallocate(header_->value_, 1);
-//    node_alloc_.deallocate(nil_, 1);
-//    node_alloc_.deallocate(header_, 1);
+    //    clear_node(root_);
+    //    alloc_.destroy(header_->value_);
+    //    alloc_.deallocate(header_->value_, 1);
+    //    node_alloc_.deallocate(nil_, 1);
+    //    node_alloc_.deallocate(header_, 1);
   }
   //_______________________________________________________________________________________________________________//
   size_type size() const { return size_; }

@@ -14,22 +14,6 @@ TEST(vector_test, at1) {
   EXPECT_EQ(vec1.capacity(), vec2.capacity());
 }
 
-TEST(vector_test, at_exeptions) {
-  s21::Vector<int> vec1 = {1, 2, 3};
-  try {
-    vec1.at(3);
-    FAIL() << "Expected std::out_of_range";
-  } catch (std::out_of_range const &err) {
-    EXPECT_EQ(err.what(), std::string("out_of_range"));
-  }
-  try {
-    vec1.at(-2);
-    FAIL() << "Expected std::out_of_range";
-  } catch (std::out_of_range const &err) {
-    EXPECT_EQ(err.what(), std::string("out_of_range"));
-  }
-}
-
 TEST(vector_test, operator_brackets) {
   s21::Vector<int> vec1 = {1, 2, 3, 4, 5};
   std::vector<int> vec2 = {1, 2, 3, 4, 5};

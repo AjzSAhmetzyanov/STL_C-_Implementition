@@ -37,67 +37,43 @@ class Array {
   Array(Array &&other) : Array() {
     std::move(other.cbegin(), other.cend(), data_);
   }
-  
-  void operator=(Array &other) { 
+
+  void operator=(Array &other) {
     std::copy(other.cbegin(), other.cend(), data_);
   }
 
-  void operator=(Array &&other) { 
+  void operator=(Array &&other) {
     std::move(other.cbegin(), other.cend(), data_);
   }
 
-  reference operator[](size_type pos) { 
-    return data_[pos]; 
-  }
+  reference operator[](size_type pos) { return data_[pos]; }
 
-  iterator begin() noexcept { 
-    return data_; 
-  }
+  iterator begin() noexcept { return data_; }
 
-  iterator end() noexcept { 
-    return &data_[size_]; 
-  }
+  iterator end() noexcept { return &data_[size_]; }
 
-  const_iterator cbegin() const noexcept { 
-    return data_; 
-  }
+  const_iterator cbegin() const noexcept { return data_; }
 
-  const_iterator cend() const noexcept { 
-    return &data_[size_]; 
-  }
+  const_iterator cend() const noexcept { return &data_[size_]; }
 
-  const_reference front() const {
-    return data_[0];
-  }
+  const_reference front() const { return data_[0]; }
 
-  const_reference back() const {
-    return data_[size_ - 1];
-  }
+  const_reference back() const { return data_[size_ - 1]; }
 
-  iterator data() noexcept {
-    return begin();
-  }
+  iterator data() noexcept { return begin(); }
 
-  bool empty() const noexcept {
-    return data_ == nullptr;
-  }
+  bool empty() const noexcept { return data_ == nullptr; }
 
-  size_type size() const noexcept {
-    return size_;
-  }
+  size_type size() const noexcept { return size_; }
 
-  size_type max_size() const noexcept {
-    return size();
-  }
+  size_type max_size() const noexcept { return size(); }
 
   reference at(size_type pos) {
-     if (!(pos < size())) throw std::out_of_range("sega");
-        return data_[pos];
+    if (!(pos < size())) throw std::out_of_range("sega");
+    return data_[pos];
   }
 
-  void swap(Array &other) {
-    std::swap(*this, other);
-  }
+  void swap(Array &other) { std::swap(*this, other); }
 
   void fill(const_reference value) {
     size_type i = 0;

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/src.dir/List/test.cc.obj"
-  "CMakeFiles/src.dir/List/test.cc.obj.d"
+  "CMakeFiles/src.dir/Map/test.cc.obj"
+  "CMakeFiles/src.dir/Map/test.cc.obj.d"
   "libsrc.dll.a"
   "src.exe"
   "src.exe.manifest"
