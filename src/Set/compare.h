@@ -11,7 +11,7 @@ struct Compare {
   bool eq(const C &x, const C &y) const { return x == y; }
   bool neq(const C &x, const C &y) const { return x != y; }
 };
-template <class E, class F>
+template <typename E, typename F>
 struct Pair_compare {
   bool lt(const std::pair<E, F> &x, const std::pair<E, F> &y) const {
     return x.first < y.first;

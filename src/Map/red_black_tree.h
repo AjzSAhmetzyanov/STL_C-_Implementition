@@ -6,7 +6,7 @@
 #include "../Vector/utility.h"
 #include "iterator.h"
 namespace s21 {
-template <class Value, class Compare = s21::Compare<Value>,
+template <class Value, class Compare = s21::Pair_compare<Value, Value>,
           class Alloc = std::allocator<Value> >
 class RedBlackTree {
  public:
@@ -48,8 +48,7 @@ class RedBlackTree {
     }
 
     RedBlackTree()
-            : root_(0),
-              alloc_(allocator_type()),
+            : alloc_(allocator_type()),
               node_alloc_(node_allocator()),
               compare_(value_compare()),
               size_(0) {
