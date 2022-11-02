@@ -259,18 +259,11 @@ class RedBlackTree {
   }
 
   iterator end() {
-        node_pointer tmp = root_;
-        while (tmp != NULL) {
-            tmp = tmp->right_;
-        }
-        return iterator(tmp);
-
+        return iterator(header_);
+}
   const_iterator end() const {
-      node_pointer tmp = root_;
-      while (tmp != NULL) {
-          tmp = tmp->right_;
-      }
-      return iterator(tmp);
+      return const_iterator(header_);
+  }
   pointer create_value(const value_type &value) {
     pointer new_val = alloc_.allocate(1);
     alloc_.construct(new_val, value);
@@ -314,7 +307,7 @@ class RedBlackTree {
       return NULL;
     if (compare_.lt(value, *node->value_))
       return search(value, node->left_);
-    if (compare_.gt(*node->value_, value))
+    if (compare_.gt(value,*node->value_))
       return search(value, node->right_);
     if (compare_.eq(*node->value_, value))
         return node;
