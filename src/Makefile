@@ -26,7 +26,7 @@ set_test:
 	./test_set --gtest_brief=1
 
 vector_test:
-	$(CC) $(SRC_VECTOR) -o test_vector $(DOP) 
+	$(CC) $(FLAGS) $(SRC_VECTOR) -o test_vector $(DOP) 
 	./test_vector --gtest_brief=1
 
 list_test:
@@ -38,11 +38,11 @@ queue_test:
 	./test_queue --gtest_brief=1
 
 stack_test:
-	$(CC) $(SRC_STACK) -o test_stack $(DOP)
+	$(CC) $(FLAGS) $(SRC_STACK) -o test_stack $(DOP)
 	./test_stack --gtest_brief=1
 
 array_test:
-	$(CC) $(SRC_ARRAY) -o test_array $(DOP)
+	$(CC) $(FLAGS) $(SRC_ARRAY) -o test_array $(DOP)
 	./test_array --gtest_brief=1
 
 multiset_test:

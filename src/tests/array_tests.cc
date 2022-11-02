@@ -27,15 +27,6 @@ TEST(array_test, constr3) {
   for (int i = 0; i < 10; i++) EXPECT_EQ(arr1.at(i), arr2.at(i));
 }
 
-TEST(array_test, constr4) {
-  try {
-    s21::Array<int, 3> arr1 = {1, 2, 3, 4};
-    FAIL() << "Expected std::out_of_range";
-  } catch (std::out_of_range const &err) {
-    EXPECT_EQ(err.what(), std::string("unvaliable amount of elements"));
-  }
-}
-
 TEST(array_test, constr5) {
   s21::Array<int, 3> arr1 = {1, 2, 3};
   std::array<int, 3> arr2 = {1, 2, 3};
