@@ -51,7 +51,7 @@ class Set {
 
   ~Set() {
     if (size_ != 0) clear();
-    // if (nill_) delete nill_;
+    if (nill_) delete nill_;
   }
 
   bool empty() const { return size_ == 0; }
@@ -98,19 +98,21 @@ class Set {
     //ищем уникальные элементы из второго дерева
     //если есть , то отправляем в 1 дерево
     if (!other.empty()) {
-      if (other.root_ != nullptr) {
+      //if (other.root_ != nullptr) {
         for (auto it_1 = other.begin(); it_1 != other.end(); it_1++) {
           if (!this->contains(*it_1)) {
             this->insert(*it_1);
+            other.erase(it_1);
+            
             other.size_--;
-#if defined S21_MULTISET_H_
           } else {
+#if defined S21_MULTISET_H_
             this->insert(*it_1);
             other.size_--;
 #endif
           }
-        }
-      }
+        } 
+      //}
     }
   }
 
@@ -120,18 +122,13 @@ class Set {
 
   void erase(iterator pos) {
     node_pointer y = pos.base();
-    node_pointer x = nullptr;
-    node_pointer for_free = y;
     if (is_nill(y->left_)) {
-      x = y->right_;
       transplant(y, y->right_);
     } else if (is_nill(y->right_)) {
-      x = y->left_;
       transplant(y, y->left_);
     } else {
       node_pointer z = y;
       y = tree_min(z->right_);
-      x = y->right_;
       if (y->parent_ != z) {
         transplant(y, y->right_);
         y->right_ = z->right_;
@@ -141,6 +138,7 @@ class Set {
       y->left_ = z->left_;
       y->left_->parent_ = y;
     }
+    delete y;
   }
 
   void operator=(Set &&other) {

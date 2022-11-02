@@ -57,10 +57,11 @@ class Map {
   }
 
   mapped_type& operator[](const key_type& key) {
-    if (!tree_.contains(std::make_pair(key, mapped_type()))) {
-      tree_.insert(std::make_pair(key, mapped_type()));
-    }
-    return (tree_.find(std::make_pair(key, mapped_type())))->second;
+    iterator tmp = this->find(key);
+			if (tmp == this->end())
+				insert(std::make_pair(key, mapped_type()));
+			tmp = this->find(key);
+			return ((*tmp).second);
   }
 
   size_type size() const { return (tree_.size()); }
@@ -132,12 +133,22 @@ class Map {
   }
 
   mapped_type& at(const key_type& key) {
-    if (!tree_.contains(std::make_pair(key, mapped_type()))) {
-      throw std::out_of_range("This key doesn't exist");
-    }
-    return operator[](key);
+    iterator tmp = this->find(key);
+			if (tmp == this->end()) {
+				insert(std::make_pair(key, mapped_type()));
+      }
+			tmp = this->find(key);
+			return ((*tmp).second);
   }
-
+  
+  const mapped_type& at(const key_type& key) const {
+    iterator tmp = this->find(key);
+			if (tmp == this->end()) {
+				insert(std::make_pair(key, mapped_type()));
+      }
+			tmp = this->find(key);
+			return ((*tmp).second);
+  }
   void merge(Map& other) {
     for (auto it = other.begin(); it != other.end(); it++) {
       tree_.insert(*it);

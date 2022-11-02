@@ -69,7 +69,7 @@ class TreeNode {
 
   TreeNode *get_next_node() {
     TreeNode *node = this;
-    Key temp = node->key_;
+    //Key temp = node->key_;
     if (node->right_ == get_nill()) {
       node = node->parent_;
     } else {

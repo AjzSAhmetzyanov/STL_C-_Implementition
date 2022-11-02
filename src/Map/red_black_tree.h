@@ -7,7 +7,7 @@
 #include "iterator.h"
 namespace s21 {
 template <class Value, class Compare = s21::Pair_compare<Value, Value>,
-          class Alloc = std::allocator<Value> >
+          class Alloc = std::allocator<Value>>
 class RedBlackTree {
  public:
   typedef Value value_type;

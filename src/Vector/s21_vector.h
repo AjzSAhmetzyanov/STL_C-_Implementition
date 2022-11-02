@@ -184,7 +184,6 @@ class Vector {
         size_(0),
         capacity_(0),
         allocator_(alloc){
-
         };
   // добавить конструктор вектора с помощью двух итераторов которые указывают на
   // начало и конец вектора(любой элемент)
@@ -209,7 +208,7 @@ class Vector {
   }
 
   Vector(Vector &&other)
-      : size_(other.size_), capacity_(other.capacity_), first_(other.first_) {
+      : first_(other.first_), size_(other.size_), capacity_(other.capacity_) {
     other.first_ = nullptr;
     other.size_ = 0;
     other.capacity_ = 0;
@@ -395,9 +394,6 @@ class Vector {
   };
 
   void resize(size_type new_size, const value_type &val = value_type()) {
-    // while (new_size < size_) {
-    //    //   pop_back();
-    //    // }
     if (new_size > size_) {
       if (size_ <= capacity_) reserve(new_size);
       while (new_size > size_) {

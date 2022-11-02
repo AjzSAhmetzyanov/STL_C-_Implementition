@@ -19,12 +19,6 @@ TEST(tests_of_Queue, push) {
   MyQueue_1.pop();
   stdQueue.pop();
   EXPECT_EQ(MyQueue_1.back(), stdQueue.back());
-
-  s21::Queue<int> MyQueue_2 = {1, 2};
-  s21::Queue<int> MyQueue_4;
-  MyQueue_4 = MyQueue_2;
-  EXPECT_EQ(MyQueue_4.front(), 1);
-  EXPECT_EQ(MyQueue_4.back(), 2);
 }
 
 TEST(tests_of_Queue, pop_1) {

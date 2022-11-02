@@ -37,7 +37,7 @@ class Array {
   Array(Array &&other) : Array() {
     std::move(other.cbegin(), other.cend(), data_);
   }
-
+  ~Array() {}
   void operator=(Array &other) {
     std::copy(other.cbegin(), other.cend(), data_);
   }
@@ -69,7 +69,10 @@ class Array {
   size_type max_size() const noexcept { return size(); }
 
   reference at(size_type pos) {
-    if (!(pos < size())) throw std::out_of_range("sega");
+    if (!(pos < size())) {
+      throw std::out_of_range("sega");
+
+    }
     return data_[pos];
   }
 

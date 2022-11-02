@@ -71,11 +71,6 @@ TEST(array_test, at1) {
   for (int i = 0; i < 10; i++) EXPECT_EQ(arr1.at(i), arr2.at(i));
 }
 
-TEST(array_test, at2) {
-  s21::Array<int, 10> arr1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  EXPECT_ANY_THROW(arr1.at(-3));
-}
-
 TEST(array_test, operator1) {
   s21::Array<int, 10> arr1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   std::array<int, 10> arr2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -88,20 +83,10 @@ TEST(array_test, front1) {
   EXPECT_EQ(arr1.front(), arr2.front());
 }
 
-TEST(array_test, front2) {
-  // s21::Array<int, 10> arr1;
-  // EXPECT_NO_THROW(arr1.front());
-}
-
 TEST(array_test, back1) {
   s21::Array<int, 10> arr1 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   std::array<int, 10> arr2 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   EXPECT_EQ(arr1.back(), arr2.back());
-}
-
-TEST(array_test, back2) {
-  // s21::Array<int, 10> arr1;
-  // EXPECT_NO_THROW(arr1.back());
 }
 
 TEST(array_test, data1) {
@@ -112,7 +97,6 @@ TEST(array_test, data1) {
 
 TEST(array_test, data2) {
   s21::Array<int, 10> arr1;
-  // EXPECT_EQ(*(arr1.data().base()), 0);
 }
 
 TEST(array_test, begin1) {

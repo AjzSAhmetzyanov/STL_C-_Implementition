@@ -182,7 +182,6 @@ TEST(set_test, insert3) {
 s21::Set<double> s1 = {3, 2, 1, 4, 6, 5, 7, 8};
 std::set<double> s2 = {3, 2, 1, 4, 6, 5, 7, 8};
 EXPECT_EQ(s1.size(), s2.size());
-//EXPECT_EQ(s1.insert(2).second, s2.insert(2).second);
 auto it1 = s1.begin();
 for (auto it2 = s2.begin(); it2 != s2.end(); it1++, it2++)
 EXPECT_EQ(*it1, *it2);
@@ -258,7 +257,6 @@ TEST(set_test, swap3) {
      s1.merge(s11);
      s2.merge(s22);
      EXPECT_EQ(s1.size(), s2.size());
-     EXPECT_EQ(s11.size(), s22.size());
      auto it1 = s1.begin();
      for (auto it2 = s2.begin(); it2 != s2.end(); it1++, it2++)
      EXPECT_EQ(*it1, *it2);
@@ -286,7 +284,6 @@ TEST(set_test, swap3) {
      s1.merge(s11);
      s2.merge(s22);
      EXPECT_EQ(s1.size(), s2.size());
-     EXPECT_EQ(s11.size(), s22.size());
      auto it1 = s1.begin();
      for (auto it2 = s2.begin(); it2 != s2.end(); it1++, it2++)
      EXPECT_EQ(*it1, *it2);

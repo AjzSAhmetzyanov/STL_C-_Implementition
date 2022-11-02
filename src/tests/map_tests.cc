@@ -49,25 +49,18 @@ TEST(map_test, constr4) {
   EXPECT_EQ(m11.size(), m22.size());
 }
 
-//TEST(map_test, at1) {
-//  s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
-//  std::map<int, int> m2 = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
-//  for (size_t i = 1; i < m1.size(); i++)
-//      EXPECT_EQ(m1.at(i), m2.at(i));
-//}
-//
-//TEST(map_test, at2) {  // exception leak
-//  s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
-//  std::map<int, int> m2 = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
-//  EXPECT_ANY_THROW(m1.at(0));
-//  EXPECT_ANY_THROW(m2.at(0));
-//}
-//
-//TEST(map_test, at3) {
-//  s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//  std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//  EXPECT_EQ(m1.at(100), m2.at(100));
-//}
+TEST(map_test, at1) {
+ s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
+ std::map<int, int> m2 = {{1, 1}, {2, 2}, {3, 3}, {4, 4}, {5, 5}};
+ for (size_t i = 1; i < m1.size(); i++)
+     EXPECT_EQ(m1.at(i), m2.at(i));
+}
+
+TEST(map_test, at3) {
+ s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+ std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+ EXPECT_EQ(m1.at(100), m2.at(100));
+}
 
 TEST(map_test, begin1) {
   s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
@@ -244,46 +237,6 @@ TEST(map_test, swap3) {
   for (auto it2 = m22.begin(); it2 != m22.end(); it1++, it2++)
     EXPECT_EQ((*it1).second, (*it2).second);
 }
-
-// TEST(map_test, merge1) {
-//     s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     s21::Map<int, int> m11;
-//     std::map<int, int> m22;
-//     m1.merge(m11); m2.merge(m22);
-//     EXPECT_EQ(m1.size(),
-//     m2.size()); EXPECT_EQ(m11.size(), m22.size()); auto it1 = m1.begin(); for
-//     (auto it2 = m2.begin(); it2 != m2.end(); it1++, it2++)
-//     EXPECT_EQ((*it1).second, (*it2).second);
-// }
-//
-// TEST(map_test, merge2) {
-//     s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     s21::Map<int, int> m11;
-//     std::map<int, int> m22;
-//     m1.merge(m11);
-//     m2.merge(m22);
-//     EXPECT_EQ(m1.size(), m2.size());
-//     EXPECT_EQ(m11.size(), m22.size());
-//     auto it1 = m1.begin();
-//     for (auto it2 = m2.begin(); it2 != m2.end(); it1++, it2++)
-//     EXPECT_EQ((*it1).second, (*it2).second);
-// }
-//
-// TEST(map_test, merge3) {
-//     s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     s21::Map<int, int> m11;
-//     std::map<int, int> m22;
-//     m1.merge(m11);
-//     m2.merge(m22);
-//     EXPECT_EQ(m1.size(), m2.size());
-//     EXPECT_EQ(m11.size(), m22.size());
-//     auto it1 = m1.begin();
-//     for (auto it2 = m2.begin(); it2 != m2.end(); it1++, it2++)
-//     EXPECT_EQ((*it1).second, (*it2).second);
-// }
 
  TEST(map_test, contains1) {
    s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};

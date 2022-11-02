@@ -205,12 +205,6 @@ TEST(vector_test, pop_back) {
 
   EXPECT_EQ(vec1.size(), vec2.size());
   EXPECT_EQ(vec1.capacity(), vec2.capacity());
-  s21::Vector<int> vec3;
-  std::vector<int> vec4;
-  // vec3.pop_back();
-  // vec4.pop_back();
-  // EXPECT_EQ(vec3.size(), vec4.size());
-  // EXPECT_EQ(vec3.capacity(), vec4.capacity());
 }
 
 TEST(vector_test, swap) {

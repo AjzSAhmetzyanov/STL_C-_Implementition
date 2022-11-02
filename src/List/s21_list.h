@@ -112,7 +112,7 @@ class List {
       tail_ = temp;
     }
     size_++;
-    set_fake(reinterpret_cast<const_reference>(size_));
+    set_fake();
   }
 
   void push_front(const_reference value) {
@@ -126,7 +126,7 @@ class List {
       head_ = temp;
     }
     size_++;
-    set_fake(reinterpret_cast<const_reference>(size_));
+    set_fake();
   }
 
   bool empty() { return (size_ == 0); }
@@ -177,7 +177,7 @@ class List {
       tail_ = node_back;
     }
     size_--;
-    set_fake((size_ == 0) ? value_type() : node->data_);
+      set_fake();
   }
 
   void swap(List &other) {
@@ -292,7 +292,7 @@ class List {
     }
     return slow;
   }
-  void set_fake(const_reference value) {
+  void set_fake() {
     if (head_ != nullptr && tail_ != nullptr) {
       head_->prev_ = fake_node_;
       tail_->next_ = fake_node_;

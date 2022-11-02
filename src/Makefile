@@ -1,5 +1,5 @@
 CC = gcc 
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -std=c++17
 DOP = -lgtest -lpthread -lstdc++
 
 TEST = all_tests
@@ -22,7 +22,7 @@ SRC_CONTAINERS = $(SRC_LIST) $(SRC_MAP) $(SRC_QUEUE) \
 SRC_CONTAINERSPLUS = $(SRC_ARRAY) $(SRC_MULTISET)
 
 set_test:
-	$(CC) $(SRC_SET) -o test_set $(DOP)
+	$(CC) $(FLAGS) $(SRC_SET) -o test_set $(DOP)
 	./test_set --gtest_brief=1
 
 vector_test:
@@ -30,11 +30,11 @@ vector_test:
 	./test_vector --gtest_brief=1
 
 list_test:
-	$(CC) $(SRC_LIST) -o test_list $(DOP) 
+	$(CC) $(FLAGS) $(SRC_LIST) -o test_list $(DOP) 
 	./test_list --gtest_brief=1
 
 queue_test:
-	$(CC) $(SRC_QUEUE) -o test_queue $(DOP) 
+	$(CC) $(FLAGS) $(SRC_QUEUE) -o test_queue $(DOP) 
 	./test_queue --gtest_brief=1
 
 stack_test:
@@ -46,15 +46,14 @@ array_test:
 	./test_array --gtest_brief=1
 
 multiset_test:
-	$(CC) $(SRC_MULTISET) -o test_multiset $(DOP)
+	$(CC) $(FLAGS) $(SRC_MULTISET) -o test_multiset $(DOP)
 	./test_multiset --gtest_brief=1
 
 map_test:
 	$(CC) $(SRC_MAP) -o test_map $(DOP) 
 	./test_map --gtest_brief=1
 
-test: map_test set_test vector_test stack_test \
-		list_test array_test multiset_test queue_test
+test: map_test
 
 style:
 	clang-format -n *.h

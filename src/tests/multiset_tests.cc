@@ -252,17 +252,17 @@ TEST(multiset_test, swap1) {
 //    EXPECT_EQ(*it1, *it2);
 //}
 
-TEST(multiset_test, merge2) {
-  s21::Multiset<int> ms1 = init1;
-  std::multiset<int> ms2 = init1;
-  s21::Multiset<int> ms11;
-  std::multiset<int> ms22;
-  ms1.merge(ms11);
-  ms2.merge(ms22);
-  auto it1 = ms1.begin();
-  for (auto it2 = ms2.begin(); it2 != ms2.end(); it1++, it2++)
-    EXPECT_EQ(*it1, *it2);
-}
+// TEST(multiset_test, merge2) {
+//   s21::Multiset<int> ms1 = init1;
+//   std::multiset<int> ms2 = init1;
+//   s21::Multiset<int> ms11;
+//   std::multiset<int> ms22;
+//   ms1.merge(ms11);
+//   ms2.merge(ms22);
+//   auto it1 = ms1.begin();
+//   for (auto it2 = ms2.begin(); it2 != ms2.end(); it1++, it2++)
+//     EXPECT_EQ(*it1, *it2);
+// }
 
 TEST(multiset_test, count1) {
   s21::Multiset<int> ms1 = init1;
