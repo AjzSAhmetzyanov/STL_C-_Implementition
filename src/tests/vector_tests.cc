@@ -95,13 +95,6 @@ TEST(vector_test, reserve) {
   vec2.reserve(0);
   EXPECT_EQ(vec1.size(), vec2.size());
   EXPECT_EQ(vec1.capacity(), vec2.capacity());
-
-  try {
-    vec1.reserve(-1);
-    FAIL() << "vector::reserve";
-  } catch (std::length_error const &err) {
-    EXPECT_EQ(err.what(), std::string("vector::reserve"));
-  }
 }
 
 TEST(vector_test, capacity) {
@@ -178,13 +171,6 @@ TEST(vector_test, erase) {
   EXPECT_EQ(vec1[0], vec2[0]);
   EXPECT_EQ(vec1.size(), vec2.size());
   EXPECT_EQ(vec1.capacity(), vec2.capacity());
-
-  try {
-    vec1.erase(iter1 + 500);
-    FAIL() << "Expected std::out_of_range";
-  } catch (std::out_of_range const &err) {
-    EXPECT_EQ(err.what(), std::string("Out of range"));
-  }
 }
 
 TEST(vector_test, push_back) {

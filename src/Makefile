@@ -50,15 +50,24 @@ multiset_test:
 	./test_multiset --gtest_brief=1
 
 map_test:
-	$(CC) $(SRC_MAP) -o test_map $(DOP) 
+	$(CC) $(FLAGS) $(SRC_MAP) -o test_map $(DOP) 
 	./test_map --gtest_brief=1
 
-test: map_test
+test: list_test 
 
 style:
 	clang-format -n *.h
-	clang-format -n tests/*.cc
 
+leaks:
+	leaks -atExit -- ./test_array
+	leaks -atExit -- ./test_list
+	leaks -atExit -- ./test_map
+	leaks -atExit -- ./test_multiset
+	leaks -atExit -- ./test_queue
+	leaks -atExit -- ./test_set
+	leaks -atExit -- ./test_stack
+	leaks -atExit -- ./test_vector
+	
 clean:
 	rm -rf test_map test_set test_array test_multiset test_vector \
 	test_list test_stack test_queue

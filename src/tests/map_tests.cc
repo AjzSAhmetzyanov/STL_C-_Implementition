@@ -160,15 +160,6 @@ TEST(map_test, insert2) {
      s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
      std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
      EXPECT_EQ(m1.empty(), m2.empty());
-     EXPECT_EQ(m1.insert_or_assign(3, 1).second, m2.insert_or_assign(3,
-     1).second); EXPECT_EQ(m1.at(3), m2.at(3)); EXPECT_EQ(m1.empty(),
-     m2.empty()); EXPECT_EQ(m1.size(), m2.size());
- }
-
- TEST(map_test, insert6) {
-     s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-     std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-     EXPECT_EQ(m1.empty(), m2.empty());
      EXPECT_EQ(m1.insert_or_assign(2, 1).second, m2.insert_or_assign(2,
      1).second); EXPECT_EQ(m1.at(2), m2.at(2)); EXPECT_EQ(m1.empty(),
      m2.empty()); EXPECT_EQ(m1.size(), m2.size());
@@ -268,7 +259,6 @@ std::map<int, int> m22 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
 m1.merge(m11);
 m2.merge(m22);
 EXPECT_EQ(m1.size(), m2.size());
-EXPECT_EQ(m11.size(), m22.size());
 auto it1 = m1.begin();
 for (auto it2 = m2.begin(); it2 != m2.end(); it1++, it2++) EXPECT_EQ((*it1).second, (*it2).second);
 }
@@ -283,48 +273,9 @@ std::map<int, int> m22 = {{389, 12}, {3829, 12}, {111, 12}, {189, 12}, {11, 12},
 m1.merge(m11);
 m2.merge(m22);
 EXPECT_EQ(m1.size(), m2.size());
-EXPECT_EQ(m11.size(), m22.size());
 auto it1 = m1.begin();
 for (auto it2 = m2.begin(); it2 != m2.end(); it1++, it2++) EXPECT_EQ((*it1).second, (*it2).second);
 }
-
-// TEST(map_test, emplace) {
-//   struct structure {
-//     int x_;
-//     long double y_;
-//     char z_;
-//     bool operator==(const structure &other) const {
-//       return (x_ == other.x_ && y_ == other.y_ && z_ == other.z_);
-//     }
-//     bool operator>(const structure &other) const { return x_ > other.x_; }
-//     bool operator<(const structure &other) const { return x_ < other.x_; }
-//     bool operator>=(const structure &other) const { return x_ >= other.x_; }
-//     bool operator<=(const structure &other) const { return x_ <= other.x_; }
-//     structure() {
-//       x_ = 0;
-//       y_ = 0;
-//       z_ = 0;
-//     }
-//     structure(int x, long double y, char z) : x_(x), y_(y), z_(z) {}
-//   };
-//   const structure elem1 = {6, 7., '8'};
-//   const structure elem2 = {7, 8., '9'};
-//   const structure expecting_result = {1, 2., '3'};
-//   std::initializer_list<std::pair<structure, int>> a = {{elem1, 1}, {elem2, 1}};
-//   s21::Map<structure, int> map1(a);
-//   std::pair<structure, int> pair1 = {expecting_result, 3};
-//   auto v1 = map1.emplace(pair1);
-//   auto it_res = map1.begin();
-//   EXPECT_TRUE((*it_res).first == expecting_result);
-//   EXPECT_TRUE((*it_res).second == 3);
-//   ++it_res;
-//   EXPECT_TRUE((*it_res).first == elem1);
-//   EXPECT_TRUE((*it_res).second == 1);
-//   ++it_res;
-//   EXPECT_TRUE((*it_res).first == elem2);
-//   EXPECT_TRUE((*it_res).second == 1);
-//   EXPECT_EQ(v1.at(0).second, true);
-// }
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);

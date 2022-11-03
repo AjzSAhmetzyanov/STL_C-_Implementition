@@ -2,7 +2,7 @@
 #define S21_LIST_H_
 #include <initializer_list>
 #include <stdexcept>
-
+#include <iostream>
 #include "iterator.h"
 namespace s21 {
 template <typename T, class Alocator = std::allocator<T>>
@@ -45,10 +45,12 @@ class List {
 
   List(const List &other) : List() { copy(other); }
 
-  List(List &&other) : List() { other.clear(); }
+  List(List &&other) : List() { 
+    copy(other);
+    }
 
   ~List() {
-    clear();
+    this->clear();
     delete fake_node_;
   }
 
@@ -74,7 +76,6 @@ class List {
   }
 
   void copy(const List &other) {
-    clear();
     if (other.size_ != 0) {
       for (auto iter = other.begin(); iter != other.end(); ++iter) {
         push_back(*iter);
@@ -83,8 +84,13 @@ class List {
   }
 
   void clear() {
-    size_type const_size = size_;
-    for (size_type i = 0; i < const_size; i++) erase(begin());
+    iterator b = begin();
+    while (b != end()) 
+    {
+      iterator pre = b;
+      b++;
+      delete pre.node();
+      };
   }
 
   void pop_back() {
@@ -108,7 +114,8 @@ class List {
     }
     if (size_ == 0) {
       head_ = tail_ = temp;
-    } else {
+    } 
+    else {
       tail_ = temp;
     }
     size_++;
@@ -129,7 +136,7 @@ class List {
     set_fake();
   }
 
-  bool empty() { return (size_ == 0); }
+  bool empty() { return (head_ == nullptr); }
 
   size_type size() { return size_; }
 
@@ -157,7 +164,7 @@ class List {
     return res;
   }
 
-  void erase(iterator pos) {
+    void erase(iterator pos) {
     if (size_ == 0) {
       throw std::out_of_range("Iterator is out of range");
     }
@@ -177,7 +184,8 @@ class List {
       tail_ = node_back;
     }
     size_--;
-      set_fake();
+    set_fake();
+    delete pos.node();
   }
 
   void swap(List &other) {
@@ -198,8 +206,7 @@ class List {
         ++it_this;
       }
     }
-    other.clear();
-  }
+ }
 
   void splice(iterator pos, List &other) {
     iterator this_it = begin();
@@ -207,7 +214,6 @@ class List {
       ;
     }
     for (auto it = other.begin(); it != other.end(); ++it) insert(this_it, *it);
-    other.clear();
   }
 
   void reverse() {
@@ -299,6 +305,7 @@ class List {
     }
     fake_node_->prev_ = tail_;
     fake_node_->next_ = head_;
+    //fake_node_->data_ = 0;
   }
 };
 }  // namespace s21

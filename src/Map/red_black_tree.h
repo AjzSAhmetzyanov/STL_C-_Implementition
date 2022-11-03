@@ -330,8 +330,9 @@ class RedBlackTree {
 
   std::pair<iterator, bool> insert(value_type const &_value) {
     node_pointer find_val = search(_value, root_);
-    if (find_val)
+    if (find_val) {
       return std::pair<iterator, bool>(iterator(find_val), false);
+  } else {
       node_pointer new_node = node_alloc_.allocate(1);
       node_alloc_.construct(new_node, Node<value_type>(create_value(_value)));
       new_node->left_ = nil_;
@@ -345,6 +346,7 @@ class RedBlackTree {
       header_->parent_ = new_node;
       return res;
     }
+}
 
   RedBlackTree &operator[](const value_type &key_) const {
     return (*((insert(key_).first))).second;

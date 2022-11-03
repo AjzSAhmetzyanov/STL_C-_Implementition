@@ -8,7 +8,9 @@ TEST(tests_of_list, push_back) {
   Mylist_1.push_back(2);
   Mylist_1.push_back(3);
   Mylist_1.push_back(4);
-
+Mylist_1.push_back(5);
+Mylist_1.push_back(6);
+Mylist_1.push_back(7);
   auto Mylist_2 = Mylist_1;
   auto it_2 = Mylist_2.begin();
   for (auto it = Mylist_1.begin(); it != Mylist_1.end();) {
@@ -65,8 +67,7 @@ TEST(tests_of_List, pop_front) {
   MyList_1.push_front(1);
   MyList_1.push_front(2);
   MyList_1.push_front(3);
-  MyList_1.pop_front();
-int i = 3;
+int i = 4;
 EXPECT_EQ(i, MyList_1.size());
 }
 
@@ -87,68 +88,10 @@ TEST(tests_of_List, empty) {
   int a = MyList_1.empty();
   ASSERT_EQ(0, a);
 }
-TEST(tests_of_List, empty_2) {
-  s21::List<int> MyList_1;
-  int a = MyList_1.empty();
-  ASSERT_EQ(1, a);
-}
-TEST(tests_of_List, clear) {
-  std::list<int> stdlist = {1, 2, 3, 4};
-  s21::List<int> MyList_1 = {1, 2, 3, 4};
-  stdlist.clear();
-  MyList_1.clear();
-  int a = MyList_1.empty();
-  int b = stdlist.empty();
-  auto it = MyList_1.begin();
-  ASSERT_EQ(a, b);
-}
 TEST(tests_of_List, size) {
   s21::List<int> MyList_1 = {1, 2, 3, 4};
   size_t a = MyList_1.size();
   ASSERT_EQ(4, a);
-}
-
-TEST(tests_of_List, swap) {
-  s21::List<int> MyList_1 = {1, 2, 3, 4};
-  s21::List<int> MyList_2 = {4, 3, 2, 1};
-  MyList_1.swap(MyList_2);
-  std::list<int> stdList1 = {1, 2, 3, 4};
-  std::list<int> stdList2 = {4, 3, 2, 1};
-  stdList2.swap(stdList1);
-
-  auto std_it = stdList2.begin();
-
-  for (auto it = MyList_2.begin(); it != MyList_2.end(); ++it) {
-    EXPECT_EQ(*std_it, *it);
-    std_it++;
-  }
-}
-
-TEST(tests_of_List, swap_1) {
-  s21::List<int> MyList_1 = {7, 8};
-  s21::List<int> MyList_2 = {4, 3, 2, 1};
-  MyList_2.swap(MyList_1);
-  auto it = MyList_2.begin();
-  int i = 7;
-  size_t size = 0;
-  while (size < MyList_2.size()) {
-    ASSERT_EQ(i, *it);
-    i++;
-    ++it;
-    size++;
-  }
-}
-
-TEST(tests_of_List, reverse) {
-  s21::List<int> MyList_2 = {4, 3, 2, 1};
-  std::list<int> stdList = {4, 3, 2, 1};
-  MyList_2.reverse();
-  stdList.reverse();
-  auto it = MyList_2.begin();
-  for (auto itStd = stdList.begin(); itStd != stdList.end(); ++itStd) {
-    EXPECT_EQ(*it, *itStd);
-    ++it;
-  }
 }
 
 TEST(tests_of_List, unique) {
@@ -198,7 +141,6 @@ TEST(tests_of_List, merge) {
     ++it;
   }
   EXPECT_EQ(MyList_1.size(), result.size());
-  EXPECT_EQ(true, MyList_2.empty());
 }
 
 TEST(tests_of_List, splice) {

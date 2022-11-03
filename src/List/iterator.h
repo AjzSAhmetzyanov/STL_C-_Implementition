@@ -30,7 +30,7 @@ class ListConstIterator {
       : iterator_(other_iterator.iterator_) {}
   ListConstIterator(ListConstIterator &&other_iterator)
       : iterator_(other_iterator.iterator_) {}
-  ~ListConstIterator() { iterator_ = nullptr; }
+  ~ListConstIterator() {}
 
   ListConstIterator &operator++() {
     this->iterator_ = this->iterator_->next_;
