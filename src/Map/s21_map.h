@@ -136,30 +136,36 @@ class Map {
 
   mapped_type& at(const key_type& key) {
     iterator tmp = this->find(key);
-			if (tmp == this->end()) {
-				throw std::out_of_range("ups");
-      }
+//			if (tmp == this->end()) {
+//				throw std::out_of_range("ups");
+//      }
 			return ((*tmp).second);
   }
   
   const mapped_type& at(const key_type& key) const {
       iterator tmp = this->find(key);
-      if (tmp == this->end()) {
-          throw std::out_of_range("ups");
-      }
+//      if (tmp == this->end()) {
+//          throw std::out_of_range("ups");
+//      }
       return ((*tmp).second);
   }
 
   void merge(Map& other) {
-    for (auto it = other.begin(); it != other.end(); it++) {
-      tree_.insert(*it);
-    }
-    tree_.clear();
+      for (auto it = other.begin(); it != other.end(); it++) {
+          this->insert(*it);
+      }
+      other.clear();
   }
 
   std::pair<iterator, bool> insert_or_assign(const key_type& key,
-                                             const mapped_type& obj) const {
-    return tree_.insert_or_assign(std::make_pair(key, obj));
+                                             const mapped_type& obj) {
+      size_type start_size = this->size();
+      if (contains(key)) {
+          this->at(key) = obj;
+      } else {
+          this->insert(std::make_pair(key, obj));
+      }
+          return std::make_pair(find(key), start_size < this->size());
   }
 
   template <class... Args>
@@ -168,8 +174,12 @@ class Map {
     result.push_back(insert(std::forward<Args>(args)...));
     return result;
   }
-  bool contains(const Key& key) const {
-    return (tree_.contains(std::make_pair(key, mapped_type())));
+  bool contains(const Key& key) {
+      bool res = false;
+      if(find(key).node() != nullptr) {
+          res = true;
+      }
+      return res;
   }
 
   template <class _Key, class _T, class _Compare, class _Alloc>

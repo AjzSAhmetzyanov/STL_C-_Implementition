@@ -156,23 +156,23 @@ TEST(map_test, insert2) {
   EXPECT_EQ(m1.size(), m2.size());
 }
 
-// TEST(map_test, insert5) {
-//     s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     EXPECT_EQ(m1.empty(), m2.empty());
-//     EXPECT_EQ(m1.insert_or_assign(3, 1).second, m2.insert_or_assign(3,
-//     1).second); EXPECT_EQ(m1.at(3), m2.at(3)); EXPECT_EQ(m1.empty(),
-//     m2.empty()); EXPECT_EQ(m1.size(), m2.size());
-// }
+ TEST(map_test, insert5) {
+     s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+     std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+     EXPECT_EQ(m1.empty(), m2.empty());
+     EXPECT_EQ(m1.insert_or_assign(3, 1).second, m2.insert_or_assign(3,
+     1).second); EXPECT_EQ(m1.at(3), m2.at(3)); EXPECT_EQ(m1.empty(),
+     m2.empty()); EXPECT_EQ(m1.size(), m2.size());
+ }
 
-// TEST(map_test, insert6) {
-//     s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
-//     EXPECT_EQ(m1.empty(), m2.empty());
-//     EXPECT_EQ(m1.insert_or_assign(2, 1).second, m2.insert_or_assign(2,
-//     1).second); EXPECT_EQ(m1.at(2), m2.at(2)); EXPECT_EQ(m1.empty(),
-//     m2.empty()); EXPECT_EQ(m1.size(), m2.size());
-// }
+ TEST(map_test, insert6) {
+     s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+     std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+     EXPECT_EQ(m1.empty(), m2.empty());
+     EXPECT_EQ(m1.insert_or_assign(2, 1).second, m2.insert_or_assign(2,
+     1).second); EXPECT_EQ(m1.at(2), m2.at(2)); EXPECT_EQ(m1.empty(),
+     m2.empty()); EXPECT_EQ(m1.size(), m2.size());
+ }
 
 TEST(map_test, erase1) {  // exception leak
   s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
@@ -247,6 +247,46 @@ TEST(map_test, swap3) {
    s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
    EXPECT_EQ(m1.contains(5), true);
  }
+TEST(map_test, merge1) {
+s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+s21::Map<int, int> m11 = {{389, 12}, {3829, 12}, {111, 12}, {189, 12}, {11, 12}};
+std::map<int, int> m22 = {{389, 12}, {3829, 12}, {111, 12}, {189, 12}, {11, 12}};
+m1.merge(m11);
+m2.merge(m22);
+EXPECT_EQ(m1.size(), m2.size());
+EXPECT_EQ(m11.size(), m22.size());
+auto it1 = m1.begin();
+for (auto it2 = m2.begin(); it2 != m2.end(); it1++, it2++) EXPECT_EQ((*it1).second, (*it2).second);
+}
+
+TEST(map_test, merge2) {
+s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+s21::Map<int, int> m11 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+std::map<int, int> m22 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+m1.merge(m11);
+m2.merge(m22);
+EXPECT_EQ(m1.size(), m2.size());
+EXPECT_EQ(m11.size(), m22.size());
+auto it1 = m1.begin();
+for (auto it2 = m2.begin(); it2 != m2.end(); it1++, it2++) EXPECT_EQ((*it1).second, (*it2).second);
+}
+
+TEST(map_test, merge3) {
+s21::Map<int, int> m1 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+std::map<int, int> m2 = {{1, 1}, {2, 2}, {100, 3}, {4, 4}, {5, 5}};
+s21::Map<int, int> m11 = {{389, 12}, {3829, 12}, {111, 12}, {189, 12}, {11, 12},
+                          {1, 1},    {2, 2},     {100, 3},  {4, 4},    {5, 5}};
+std::map<int, int> m22 = {{389, 12}, {3829, 12}, {111, 12}, {189, 12}, {11, 12},
+                          {1, 1},    {2, 2},     {100, 3},  {4, 4},    {5, 5}};
+m1.merge(m11);
+m2.merge(m22);
+EXPECT_EQ(m1.size(), m2.size());
+EXPECT_EQ(m11.size(), m22.size());
+auto it1 = m1.begin();
+for (auto it2 = m2.begin(); it2 != m2.end(); it1++, it2++) EXPECT_EQ((*it1).second, (*it2).second);
+}
 
 // TEST(map_test, emplace) {
 //   struct structure {

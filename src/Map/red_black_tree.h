@@ -303,15 +303,19 @@ class RedBlackTree {
   }
 
   node_pointer search(const value_type &value, node_pointer node) const {
-    if (is_nil(node))
-      return NULL;
-    if (compare_.lt(value, *node->value_))
-      return search(value, node->left_);
-    if (compare_.gt(value,*node->value_))
-      return search(value, node->right_);
-    if (compare_.eq(*node->value_, value))
-        return node;
-      return NULL;
+    node_pointer res;
+        if (is_nil(node)) {
+            res = nullptr;
+        } else if (compare_.lt(value, *node->value_)) {
+             res = search(value, node->left_);
+        } else if (compare_.gt(value,*node->value_)) {
+            res = search(value, node->right_);
+        } else if (compare_.eq(*node->value_, value)) {
+            res = node;
+        } else {
+            res = nullptr;
+        }
+      return res;
   }
 
   iterator find(const value_type &value) {
@@ -341,22 +345,7 @@ class RedBlackTree {
       header_->parent_ = new_node;
       return res;
     }
-  //        std::pair<iterator, bool> insert_or_assign(const value_type &key)
-  //        const{
-  //            size_type startsize_ = size_;
-  //            if (contains(key))
-  //                at(key) = key;
-  //            else
-  //                insert(key);
-  //            return std::make_pair(search(key, root_), startsize_ < size_);
-  //        }
 
-  //        value_type& at(const value_type &key_) const{
-  //            if (!contains(key_)) {
-  //                throw std::out_of_range("Error: This key doesn't exist");
-  //            }
-  //                return operator[](key_);
-  //        }
   RedBlackTree &operator[](const value_type &key_) const {
     return (*((insert(key_).first))).second;
   }
