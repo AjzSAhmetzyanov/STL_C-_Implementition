@@ -1,1 +1,1 @@
-STL C++
+Standart Templates Library C++
